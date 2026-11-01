@@ -1,773 +1,660 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#050505">
-  <meta name="description" content="Подписки NeonVpn: Mix, белые и чёрные списки, автоматический выбор серверов.">
-  <title>NeonVpn — подписки</title>
-
-  <style>
-    :root {
-      color-scheme: dark;
-      --background: #050505;
-      --card: #111;
-      --border: #292929;
-      --text: #f5f5f5;
-      --muted: #999;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      background: var(--background);
-      color: var(--text);
-      font-family: system-ui, -apple-system, sans-serif;
-      line-height: 1.6;
-    }
-
-    body::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto;
-      height: 650px;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse at top, #ffffff0d, transparent 65%),
-        linear-gradient(#ffffff03 1px, transparent 1px),
-        linear-gradient(90deg, #ffffff03 1px, transparent 1px);
-      background-size: auto, 48px 48px, 48px 48px;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button,
-    input {
-      font: inherit;
-    }
-
-    button,
-    a {
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    button:focus-visible,
-    a:focus-visible {
-      outline: 2px solid white;
-      outline-offset: 4px;
-    }
-
-    header,
-    main,
-    footer {
-      position: relative;
-      max-width: 960px;
-      margin: auto;
-      padding: 0 22px;
-    }
-
-    header {
-      min-height: 86px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .brand {
-      font-size: 24px;
-      font-weight: 800;
-      letter-spacing: -1px;
-    }
-
-    .channel {
-      padding: 8px 15px;
-      border: 1px solid var(--border);
-      border-radius: 30px;
-      font-size: 13px;
-    }
-
-    .hero {
-      padding: 36px 0 60px;
-      text-align: center;
-    }
-
-    .logo {
-      display: grid;
-      place-items: center;
-      width: 150px;
-      height: 150px;
-      margin: auto;
-      background: radial-gradient(circle, #282828, #080808 72%);
-      border: 1px solid #444;
-      border-radius: 50%;
-      box-shadow: 0 0 70px #ffffff0d;
-    }
-
-    .logo svg {
-      width: 105px;
-      height: 105px;
-    }
-
-    .eyebrow {
-      margin-top: 28px;
-      color: #aaa;
-      font-size: 11px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      margin: 14px 0 18px;
-      font-size: clamp(40px, 9vw, 70px);
-      line-height: 1.08;
-      letter-spacing: -2px;
-    }
-
-    .hero p {
-      max-width: 480px;
-      margin: auto;
-      color: var(--muted);
-    }
-
-    section {
-      margin-bottom: 52px;
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      margin-bottom: 22px;
-      color: var(--muted);
-      font-size: 17px;
-      font-weight: 600;
-    }
-
-    .section-title::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      padding: 26px;
-      background: linear-gradient(145deg, #161616, #0c0c0c);
-      border: 1px solid var(--border);
-      border-radius: 25px;
-      transition: transform .2s, border-color .2s;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-      border-color: #555;
-    }
-
-    .card-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-
-    .icon {
-      display: grid;
-      place-items: center;
-      width: 42px;
-      height: 42px;
-      background: #ffffff07;
-      border: 1px solid #ffffff12;
-      border-radius: 14px;
-      font-size: 22px;
-    }
-
-    .tag {
-      color: #999;
-      font-size: 10px;
-      letter-spacing: 2px;
-    }
-
-    h3 {
-      margin: 0 0 7px;
-      font-size: 22px;
-      letter-spacing: -.5px;
-    }
-
-    .card p {
-      min-height: 48px;
-      margin: 0 0 22px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .button {
-      display: block;
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #363636;
-      border-radius: 13px;
-      background: transparent;
-      color: white;
-      text-align: center;
-      font-size: 14px;
-      font-weight: 650;
-      cursor: pointer;
-      transition: background .2s, transform .2s;
-    }
-
-    .button:hover {
-      background: #ffffff0c;
-    }
-
-    .button:active {
-      transform: scale(.98);
-    }
-
-    .primary {
-      margin-top: 10px;
-      border-color: white;
-      background: #f5f5f5;
-      color: #080808;
-    }
-
-    .primary:hover {
-      background: #d6d6d6;
-    }
-
-    .manual {
-      width: 100%;
-      margin-top: 12px;
-      padding: 12px;
-      background: #080808;
-      border: 1px solid #444;
-      border-radius: 10px;
-      color: white;
-      font-size: 12px;
-    }
-
-    .steps {
-      padding: 7px 25px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 25px;
-    }
-
-    .step {
-      display: flex;
-      gap: 20px;
-      padding: 22px 0;
-      color: var(--muted);
-    }
-
-    .step + .step {
-      border-top: 1px solid var(--border);
-    }
-
-    .step b {
-      color: white;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .step strong {
-      color: #eee;
-      font-weight: 550;
-    }
-
-    .clients {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .client {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 22px;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      font-size: 20px;
-      font-weight: 650;
-    }
-
-    .client span {
-      color: var(--muted);
-    }
-
-    .support {
-      padding: 28px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 25px;
-    }
-
-    .support p {
-      margin: 0 0 15px;
-      color: var(--muted);
-    }
-
-    .support a {
-      font-weight: 650;
-    }
-
-    .note {
-      padding: 20px 10px 0;
-      color: var(--muted);
-      text-align: center;
-      font-size: 13px;
-    }
-
-    footer {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      padding-top: 25px;
-      padding-bottom: 30px;
-      border-top: 1px solid var(--border);
-      color: #777;
-      font-size: 12px;
-    }
-
-    dialog {
-      width: min(440px, calc(100% - 32px));
-      max-height: 90vh;
-      overflow: auto;
-      padding: 28px;
-      background: #111;
-      border: 1px solid #383838;
-      border-radius: 26px;
-      color: white;
-      box-shadow: 0 30px 100px #000;
-    }
-
-    dialog::backdrop {
-      background: #000b;
-      backdrop-filter: blur(9px);
-    }
-
-    dialog h2 {
-      margin: 0 0 8px;
-      font-size: 25px;
-    }
-
-    dialog p {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .app-choice {
-      display: flex;
-      justify-content: space-between;
-      margin: 12px 0;
-      padding: 17px;
-      border: 1px solid #383838;
-      border-radius: 14px;
-      font-weight: 650;
-    }
-
-    .app-choice:hover {
-      background: #222;
-    }
-
-    .close {
-      display: block;
-      margin: 15px auto 0;
-      padding: 10px 20px;
-      background: transparent;
-      border: 0;
-      color: #aaa;
-      cursor: pointer;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      z-index: 20;
-      width: max-content;
-      max-width: calc(100% - 32px);
-      padding: 12px 20px;
-      background: #eee;
-      border-radius: 14px;
-      color: #111;
-      text-align: center;
-      font-size: 14px;
-      opacity: 0;
-      transform: translate(-50%, 20px);
-      transition: .2s;
-      pointer-events: none;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translate(-50%, 0);
-    }
-
-    @media (max-width: 600px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero {
-        padding-top: 22px;
-      }
-
-      .card {
-        padding: 23px;
-      }
-
-      .card p {
-        min-height: auto;
-      }
-
-      footer {
-        flex-direction: column;
-        gap: 8px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        scroll-behavior: auto !important;
-        transition: none !important;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#050505">
+<meta name="description" content="Подписки NeonVpn: белые и чёрные списки, Mix и автовыбор.">
+<title>NeonVpn — подписки</title>
+
+<style>
+:root {
+  color-scheme: dark;
+  --bg: #050505;
+  --card: #111;
+  --line: #2b2b2b;
+  --text: #f5f5f5;
+  --muted: #999;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.6 system-ui, -apple-system, sans-serif;
+}
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 700px;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at top, #ffffff0c, transparent 65%),
+    linear-gradient(#ffffff03 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff03 1px, transparent 1px);
+  background-size: auto, 48px 48px, 48px 48px;
+}
+a { color: inherit; text-decoration: none; }
+button, input { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+button:focus-visible, a:focus-visible, input:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 4px;
+}
+header, main, footer {
+  position: relative;
+  width: min(100%, 960px);
+  margin: auto;
+  padding: 0 22px;
+}
+header {
+  min-height: 85px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+.brand {
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+.telegram {
+  border: 1px solid var(--line);
+  padding: 8px 15px;
+  border-radius: 30px;
+  font-size: 13px;
+}
+.hero {
+  text-align: center;
+  padding: 30px 0 55px;
+}
+.logo {
+  display: grid;
+  place-items: center;
+  width: 145px;
+  height: 145px;
+  margin: auto;
+  border: 1px solid #454545;
+  border-radius: 50%;
+  background: radial-gradient(circle, #282828, #080808 75%);
+  box-shadow: 0 0 70px #ffffff0c;
+}
+.logo svg { width: 105px; height: 105px; }
+.eyebrow {
+  color: #aaa;
+  font-size: 10px;
+  letter-spacing: 3px;
+  margin-top: 25px;
+  text-transform: uppercase;
+}
+h1 {
+  font-size: clamp(42px, 10vw, 72px);
+  line-height: 1.1;
+  letter-spacing: -2px;
+  margin: 14px 0 18px;
+}
+.hero p {
+  max-width: 470px;
+  margin: auto;
+  color: var(--muted);
+}
+section { margin-bottom: 48px; }
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 17px;
+  color: var(--muted);
+  margin: 0 0 22px;
+}
+.section-title::after {
+  content: "";
+  height: 1px;
+  background: var(--line);
+  flex: 1;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.card {
+  padding: 25px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: linear-gradient(145deg, #171717, #0c0c0c);
+  transition: transform .2s, border-color .2s;
+  scroll-margin-top: 25px;
+}
+.card:hover {
+  transform: translateY(-3px);
+  border-color: #555;
+}
+.card.selected { border-color: #aaa; }
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ffffff15;
+  border-radius: 14px;
+  background: #ffffff06;
+  font-size: 23px;
+}
+.tag {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--muted);
+}
+h3 {
+  font-size: 22px;
+  letter-spacing: -.5px;
+  margin: 0 0 7px;
+}
+.card p {
+  min-height: 46px;
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0 0 22px;
+}
+.button {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  color: white;
+  background: transparent;
+  border: 1px solid #393939;
+  border-radius: 13px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 650;
+  transition: background .2s, transform .2s;
+}
+.button:hover { background: #ffffff0c; }
+.button:active { transform: scale(.98); }
+.primary {
+  margin-top: 10px;
+  background: #f5f5f5;
+  border-color: #f5f5f5;
+  color: #080808;
+}
+.primary:hover { background: #d6d6d6; }
+.steps {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 6px 25px;
+}
+.step {
+  display: flex;
+  gap: 20px;
+  padding: 21px 0;
+  color: var(--muted);
+}
+.step + .step { border-top: 1px solid var(--line); }
+.step b, .step strong { color: white; }
+.clients {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.client {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 21px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  font-size: 20px;
+  font-weight: 650;
+}
+.client span { color: var(--muted); }
+.support {
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--card);
+}
+.support p { margin: 0 0 15px; color: var(--muted); }
+.support a { font-weight: 650; }
+.note {
+  margin-top: 23px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  border-top: 1px solid var(--line);
+  padding-top: 25px;
+  padding-bottom: 30px;
+  font-size: 12px;
+  color: #888;
+}
+dialog {
+  width: min(440px, calc(100% - 30px));
+  max-height: 90dvh;
+  overflow: auto;
+  padding: 27px;
+  background: #111;
+  color: white;
+  border: 1px solid #3b3b3b;
+  border-radius: 25px;
+  box-shadow: 0 30px 100px #000;
+}
+dialog::backdrop {
+  background: #000c;
+  backdrop-filter: blur(9px);
+}
+dialog h2 { margin: 0 0 7px; font-size: 25px; }
+dialog p { color: var(--muted); font-size: 14px; }
+#selected-name { color: white; font-weight: 600; }
+.app-choice {
+  display: flex;
+  justify-content: space-between;
+  padding: 17px;
+  margin: 12px 0;
+  border: 1px solid #3a3a3a;
+  border-radius: 14px;
+  font-weight: 650;
+}
+.app-choice:hover { background: #222; }
+.small-note { font-size: 12px; color: #999; }
+.manual {
+  width: 100%;
+  padding: 11px;
+  margin-top: 12px;
+  background: #080808;
+  border: 1px solid #444;
+  border-radius: 10px;
+  color: white;
+  font-size: 12px;
+}
+.close {
+  display: block;
+  margin: 15px auto 0;
+  padding: 10px 20px;
+  border: 0;
+  background: none;
+  color: #aaa;
+}
+.toast {
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  z-index: 100;
+  width: max-content;
+  max-width: calc(100% - 30px);
+  padding: 12px 18px;
+  background: #eee;
+  color: #111;
+  border-radius: 14px;
+  text-align: center;
+  font-size: 14px;
+  opacity: 0;
+  transform: translate(-50%, 20px);
+  transition: .2s;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+@media(max-width: 600px) {
+  .grid { grid-template-columns: 1fr; }
+  .hero { padding-top: 20px; }
+  .card { padding: 23px; }
+  .card p { min-height: auto; }
+  footer { flex-direction: column; gap: 8px; }
+}
+@media(prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; transition: none !important; }
+}
+</style>
 </head>
 
 <body>
-  <header>
-    <a class="brand" href="#">NeonVpn</a>
-    <a class="channel"
-       href="https://t.me/+hbYzZE3c9FkxMGJi"
-       target="_blank"
-       rel="noopener">
-      Telegram ↗
-    </a>
-  </header>
+<header>
+  <a class="brand" href="./">NeonVpn</a>
+  <a class="telegram"
+     href="https://t.me/+hbYzZE3c9FkxMGJi"
+     target="_blank" rel="noopener">Telegram ↗</a>
+</header>
 
-  <main>
-    <div class="hero">
-      <div class="logo">
-        <svg viewBox="0 0 120 120"
-             role="img"
-             aria-label="Человек в капюшоне — NeonVpn">
-          <path d="M60 9C39 24 26 47 23 76L36 105H84L97 76C94 47 81 24 60 9Z"
-                fill="#111"
-                stroke="#eee"
-                stroke-width="3"/>
-          <path d="M60 28C44 41 35 58 34 75L45 94H75L86 75C85 58 76 41 60 28Z"
-                fill="#030303"
-                stroke="#666"
-                stroke-width="2"/>
-          <path d="M41 67L54 70M66 70L79 67"
-                stroke="white"
-                stroke-width="3"
-                stroke-linecap="round"/>
-          <path d="M42 80L60 75L78 80L71 96H49Z"
-                fill="#242424"
-                stroke="#777"
-                stroke-width="1.5"/>
-        </svg>
-      </div>
-
-      <div class="eyebrow">Подписки · Серверы · Автовыбор</div>
-      <h1>NEON VPN</h1>
-      <p>
-        Выбери подписку и добавь её в свой клиент.
-        Все ссылки собраны в одном месте.
-      </p>
+<main>
+  <div class="hero">
+    <div class="logo">
+      <svg viewBox="0 0 120 120" role="img"
+           aria-label="Человек в капюшоне — NeonVpn">
+        <path d="M60 9C39 24 26 47 23 76L36 105H84L97 76C94 47 81 24 60 9Z"
+              fill="#111" stroke="#eee" stroke-width="3"/>
+        <path d="M60 28C44 41 35 58 34 75L45 94H75L86 75C85 58 76 41 60 28Z"
+              fill="#030303" stroke="#666" stroke-width="2"/>
+        <path d="M41 67L54 70M66 70L79 67"
+              stroke="white" stroke-width="3" stroke-linecap="round"/>
+        <path d="M42 80L60 75L78 80L71 96H49Z"
+              fill="#242424" stroke="#777" stroke-width="1.5"/>
+      </svg>
     </div>
+    <div class="eyebrow">Подписки · Серверы · Автовыбор</div>
+    <h1>NEON VPN</h1>
+    <p>Выбери подписку и добавь её в Happ или V2RayTun.</p>
+  </div>
 
-    <section aria-labelledby="subscriptions-title">
-      <h2 class="section-title" id="subscriptions-title">Подписки</h2>
-      <div class="grid" id="subscriptions"></div>
-    </section>
+  <section aria-labelledby="subscriptions-title">
+    <h2 class="section-title" id="subscriptions-title">Подписки</h2>
+    <div class="grid" id="subscriptions"></div>
+    <noscript>
+      Для кнопок подключения включи JavaScript в браузере.
+    </noscript>
+  </section>
 
-    <section>
-      <h2 class="section-title">Подключение</h2>
-
-      <div class="steps">
-        <div class="step">
-          <b>01</b>
-          <div>
-            <strong>Установи клиент</strong> — Happ или V2RayTun.
-          </div>
-        </div>
-
-        <div class="step">
-          <b>02</b>
-          <div>
-            Выбери подписку и нажми
-            <strong>«Добавить подписку»</strong>.
-          </div>
-        </div>
-
-        <div class="step">
-          <b>03</b>
-          <div>
-            Выбери приложение, разреши переход
-            и <strong>подтверди импорт</strong>.
-            Или скопируй ссылку и вставь её в клиент вручную.
-          </div>
+  <section>
+    <h2 class="section-title">Подключение</h2>
+    <div class="steps">
+      <div class="step">
+        <b>01</b>
+        <div><strong>Установи клиент</strong> — Happ или V2RayTun.</div>
+      </div>
+      <div class="step">
+        <b>02</b>
+        <div>Выбери подписку и нажми <strong>«Подключить»</strong>.</div>
+      </div>
+      <div class="step">
+        <b>03</b>
+        <div>
+          Выбери приложение, разреши переход и
+          <strong>подтверди импорт подписки</strong>.
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section>
-      <h2 class="section-title">Клиенты</h2>
+  <section>
+    <h2 class="section-title">Клиенты</h2>
+    <div class="clients">
+      <a class="client" href="https://www.happ.su/"
+         target="_blank" rel="noopener">Happ <span>↗</span></a>
+      <a class="client" href="https://v2raytun.com/"
+         target="_blank" rel="noopener">V2RayTun <span>↗</span></a>
+    </div>
+  </section>
 
-      <div class="clients">
-        <a class="client"
-           href="https://www.happ.su/"
-           target="_blank"
-           rel="noopener">
-          Happ <span>↗</span>
-        </a>
-
-        <a class="client"
-           href="https://v2raytun.com/"
-           target="_blank"
-           rel="noopener">
-          V2RayTun <span>↗</span>
-        </a>
-      </div>
-    </section>
-
-    <section>
-      <div class="support">
-        <p>Нужна помощь с подключением?</p>
-        <a href="https://t.me/n777nn52"
-           target="_blank"
-           rel="noopener">
-          Написать в поддержку ↗
-        </a>
-      </div>
-
-      <p class="note">
-        Доступность зависит от сервера и твоей сети.
-        Если подключение не работает, обнови подписку
-        или выбери другой сервер.
-      </p>
-    </section>
-  </main>
-
-  <footer>
-    <span>© 2026 NeonVpn · @n777nn52</span>
-    <a href="https://t.me/+hbYzZE3c9FkxMGJi"
-       target="_blank"
-       rel="noopener">
-      Наш Telegram-канал ↗
-    </a>
-  </footer>
-
-  <dialog id="apps" aria-labelledby="app-title">
-    <h2 id="app-title">Добавить подписку</h2>
-    <p id="selected-name"></p>
-
-    <a class="app-choice" id="happ-import">
-      Happ <span>↗</span>
-    </a>
-
-    <a class="app-choice" id="v2raytun-import">
-      V2RayTun <span>↗</span>
-    </a>
-
-    <p>
-      Приложение должно быть установлено.
-      Телефон может запросить разрешение на переход.
-      Поддержка автовыбора зависит от клиента и его версии.
+  <section>
+    <div class="support">
+      <p>Нужна помощь с подключением?</p>
+      <a href="https://t.me/n777nn52"
+         target="_blank" rel="noopener">Написать в поддержку ↗</a>
+    </div>
+    <p class="note">
+      Доступность зависит от сервера и сети.
+      Если подключение не работает, обнови подписку
+      или попробуй другой сервер.
     </p>
+  </section>
+</main>
 
-    <button class="close" id="close-dialog" type="button">
-      Закрыть
+<footer>
+  <span>© 2026 NeonVpn · @n777nn52</span>
+  <a href="https://t.me/+hbYzZE3c9FkxMGJi"
+     target="_blank" rel="noopener">Наш Telegram-канал ↗</a>
+</footer>
+
+<dialog id="apps" aria-labelledby="app-title">
+  <h2 id="app-title">Выбери приложение</h2>
+  <p id="selected-name"></p>
+
+  <a class="app-choice" id="happ-import">
+    Happ <span>↗</span>
+  </a>
+  <a class="app-choice" id="v2raytun-import">
+    V2RayTun <span>↗</span>
+  </a>
+
+  <button class="button" id="copy-selected" type="button">
+    Копировать ссылку
+  </button>
+
+  <p class="small-note">
+    Клиент должен быть установлен. Подтверди открытие приложения
+    и импорт подписки. Поддержка автовыбора зависит от клиента
+    и его версии.
+  </p>
+  <p class="small-note">
+    Если Telegram не открывает приложение, открой эту страницу
+    во внешнем браузере — например, Chrome.
+  </p>
+
+  <button class="close" id="close-dialog" type="button">
+    Закрыть
+  </button>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+const base =
+  "https://raw.githubusercontent.com/fndnd6218-glitc/NeonVpn/main/";
+
+const subscriptions = [
+  {
+    id: "cs",
+    name: "Чёрный список",
+    description: "Основная подборка конфигураций для ручного выбора.",
+    icon: "◼",
+    tag: "ЧС",
+    file: "NeonVpn-CS.txt"
+  },
+  {
+    id: "bs",
+    name: "Белые списки",
+    description: "Отдельная подборка конфигураций БС.",
+    icon: "◻",
+    tag: "БС",
+    file: "NeonVpn-BS.txt"
+  },
+  {
+    id: "mix",
+    name: "NeonVpn Mix",
+    description: "Общая подборка стран и протоколов.",
+    icon: "◈",
+    tag: "MIX",
+    file: "NeonVpn-Mix.txt"
+  },
+  {
+    id: "cs-auto",
+    name: "ЧС · Автовыбор",
+    description: "Автоматический выбор сервера по задержке.",
+    icon: "ϟ",
+    tag: "AUTO",
+    file: "NeonVpn-CS-Auto.txt"
+  },
+  {
+    id: "bs-auto",
+    name: "БС · Автовыбор",
+    description: "Автоматический выбор среди конфигураций БС.",
+    icon: "ϟ",
+    tag: "AUTO",
+    file: "NeonVpn-BS-Auto.txt"
+  },
+  {
+    id: "mix-auto",
+    name: "Mix · Автовыбор",
+    description: "Автоматический выбор сервера из подборки Mix.",
+    icon: "ϟ",
+    tag: "MIX AUTO",
+    file: "NeonVpn-Mix-Auto.json"
+  }
+];
+
+const grid = document.querySelector("#subscriptions");
+const dialog = document.querySelector("#apps");
+const toastElement = document.querySelector("#toast");
+const copySelectedButton = document.querySelector("#copy-selected");
+
+let toastTimer;
+let selectedSubscription = null;
+
+function showToast(message) {
+  toastElement.textContent = message;
+  toastElement.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toastElement.classList.remove("show");
+  }, 3200);
+}
+
+function removeManualInputs(container) {
+  container.querySelectorAll(".manual").forEach(input => input.remove());
+}
+
+async function copySubscription(subscription, button) {
+  const url = base + subscription.file;
+
+  try {
+    await navigator.clipboard.writeText(url);
+    showToast("Ссылка подписки скопирована");
+  } catch (error) {
+    const container = button.parentElement;
+    let input = container.querySelector(".manual");
+
+    if (!input) {
+      input = document.createElement("input");
+      input.className = "manual";
+      input.readOnly = true;
+      input.setAttribute("aria-label", "Ссылка подписки");
+      button.after(input);
+    }
+
+    input.value = url;
+    input.focus();
+    input.select();
+    input.setSelectionRange(0, url.length);
+    showToast("Зажми выделенную ссылку и выбери «Копировать»");
+  }
+}
+
+function markSelected(subscription) {
+  document.querySelectorAll(".card").forEach(card => {
+    card.classList.toggle(
+      "selected",
+      card.id === "subscription-" + subscription.id
+    );
+  });
+}
+
+function openAppPicker(subscription, updateAddress = true) {
+  selectedSubscription = subscription;
+  const url = base + subscription.file;
+
+  document.querySelector("#selected-name").textContent = subscription.name;
+  document.querySelector("#happ-import").href = "happ://add/" + url;
+  document.querySelector("#v2raytun-import").href = "v2raytun://import/" + url;
+
+  removeManualInputs(dialog);
+  markSelected(subscription);
+
+  if (updateAddress) {
+    const address = new URL(location.href);
+    address.searchParams.set("sub", subscription.id);
+    address.hash = "";
+    history.replaceState(null, "", address);
+  }
+
+  if (!dialog.open) dialog.showModal();
+}
+
+function openFromAddress() {
+  const id = new URLSearchParams(location.search).get("sub");
+  const subscription = subscriptions.find(item => item.id === id);
+
+  if (!subscription) return;
+
+  document.querySelector("#subscription-" + id).scrollIntoView({
+    block: "center",
+    behavior: "instant"
+  });
+
+  openAppPicker(subscription, false);
+}
+
+subscriptions.forEach(subscription => {
+  const card = document.createElement("article");
+  card.className = "card";
+  card.id = "subscription-" + subscription.id;
+
+  card.innerHTML = `
+    <div class="card-top">
+      <div class="icon" aria-hidden="true">${subscription.icon}</div>
+      <span class="tag">${subscription.tag}</span>
+    </div>
+    <h3>${subscription.name}</h3>
+    <p>${subscription.description}</p>
+    <button class="button copy" type="button">
+      Копировать ссылку
     </button>
-  </dialog>
+    <button class="button primary connect" type="button">
+      Подключить ⚡
+    </button>
+  `;
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  card.querySelector(".copy").addEventListener("click", event => {
+    copySubscription(subscription, event.currentTarget);
+  });
 
-  <script>
-    const base =
-      "https://raw.githubusercontent.com/fndnd6218-glitc/NeonVpn/main/";
+  card.querySelector(".connect").addEventListener("click", () => {
+    openAppPicker(subscription);
+  });
 
-    const subscriptions = [
-      {
-        name: "Чёрный список",
-        description: "Основная подборка конфигураций для ручного выбора.",
-        icon: "◼",
-        tag: "ЧС",
-        file: "NeonVpn-CS.txt"
-      },
-      {
-        name: "ЧС · Автовыбор",
-        description: "Автоматический выбор сервера по задержке.",
-        icon: "ϟ",
-        tag: "AUTO",
-        file: "NeonVpn-CS-Auto.txt"
-      },
-      {
-        name: "Белые списки",
-        description: "Отдельная подборка конфигураций БС.",
-        icon: "◻",
-        tag: "БС",
-        file: "NeonVpn-BS.txt"
-      },
-      {
-        name: "БС · Автовыбор",
-        description: "Автоматический выбор среди конфигураций БС.",
-        icon: "ϟ",
-        tag: "AUTO",
-        file: "NeonVpn-BS-Auto.txt"
-      },
-      {
-        name: "NeonVpn Mix",
-        description: "Общая подборка стран и протоколов.",
-        icon: "◈",
-        tag: "MIX",
-        file: "NeonVpn-Mix.txt"
-      },
-      {
-        name: "Mix · Автовыбор",
-        description: "Автоматический выбор сервера из подборки Mix.",
-        icon: "ϟ",
-        tag: "MIX AUTO",
-        file: "NeonVpn-Mix-Auto.json"
-      }
-    ];
+  grid.append(card);
+});
 
-    const grid = document.querySelector("#subscriptions");
-    const dialog = document.querySelector("#apps");
-    const toastElement = document.querySelector("#toast");
-    let toastTimer;
+copySelectedButton.addEventListener("click", () => {
+  if (selectedSubscription) {
+    copySubscription(selectedSubscription, copySelectedButton);
+  }
+});
 
-    function showToast(message) {
-      toastElement.textContent = message;
-      toastElement.classList.add("show");
-      clearTimeout(toastTimer);
+document.querySelector("#close-dialog").addEventListener("click", () => {
+  dialog.close();
+});
 
-      toastTimer = setTimeout(() => {
-        toastElement.classList.remove("show");
-      }, 3000);
-    }
+dialog.addEventListener("click", event => {
+  if (event.target !== dialog) return;
 
-    async function copySubscription(url, button) {
-      try {
-        await navigator.clipboard.writeText(url);
+  const rect = dialog.getBoundingClientRect();
+  const outside =
+    event.clientX < rect.left ||
+    event.clientX > rect.right ||
+    event.clientY < rect.top ||
+    event.clientY > rect.bottom;
 
-        button.textContent = "Скопировано ✓";
-        showToast("Ссылка подписки скопирована");
+  if (outside) dialog.close();
+});
 
-        setTimeout(() => {
-          button.textContent = "Копировать ссылку";
-        }, 2000);
-      } catch (error) {
-        let input = button.parentElement.querySelector(".manual");
+dialog.querySelectorAll(".app-choice").forEach(link => {
+  link.addEventListener("click", () => {
+    showToast("Подтверди открытие приложения и импорт подписки");
+  });
+});
 
-        if (!input) {
-          input = document.createElement("input");
-          input.className = "manual";
-          input.readOnly = true;
-          input.setAttribute("aria-label", "Ссылка подписки");
-          button.after(input);
-        }
+window.addEventListener("popstate", () => {
+  if (dialog.open) dialog.close();
+  openFromAddress();
+});
 
-        input.value = url;
-        input.focus();
-        input.select();
-        input.setSelectionRange(0, url.length);
-
-        showToast("Зажми выделенную ссылку и выбери «Копировать»");
-      }
-    }
-
-    function openAppPicker(subscription) {
-      const url = base + subscription.file;
-
-      document.querySelector("#selected-name").textContent =
-        subscription.name;
-
-      document.querySelector("#happ-import").href =
-        "happ://add/" + url;
-
-      document.querySelector("#v2raytun-import").href =
-        "v2raytun://import/" + url;
-
-      dialog.showModal();
-    }
-
-    subscriptions.forEach(subscription => {
-      const url = base + subscription.file;
-      const card = document.createElement("article");
-      card.className = "card";
-
-      card.innerHTML = `
-        <div class="card-top">
-          <div class="icon" aria-hidden="true">${subscription.icon}</div>
-          <span class="tag">${subscription.tag}</span>
-        </div>
-        <h3>${subscription.name}</h3>
-        <p>${subscription.description}</p>
-        <button class="button copy" type="button">
-          Копировать ссылку
-        </button>
-        <button class="button primary add" type="button">
-          Добавить подписку ↗
-        </button>
-      `;
-
-      const copyButton = card.querySelector(".copy");
-
-      copyButton.addEventListener("click", () => {
-        copySubscription(url, copyButton);
-      });
-
-      card.querySelector(".add").addEventListener("click", () => {
-        openAppPicker(subscription);
-      });
-
-      grid.append(card);
-    });
-
-    document.querySelector("#close-dialog").addEventListener("click", () => {
-      dialog.close();
-    });
-
-    dialog.addEventListener("click", event => {
-      if (event.target !== dialog) return;
-
-      const rect = dialog.getBoundingClientRect();
-      const outside =
-        event.clientX < rect.left ||
-        event.clientX > rect.right ||
-        event.clientY < rect.top ||
-        event.clientY > rect.bottom;
-
-      if (outside) dialog.close();
-    });
-
-    dialog.querySelectorAll(".app-choice").forEach(link => {
-      link.addEventListener("click", () => {
-        dialog.close();
-        showToast("Подтверди открытие приложения и импорт подписки");
-      });
-    });
-  </script>
+openFromAddress();
+</script>
 </body>
 </html>
