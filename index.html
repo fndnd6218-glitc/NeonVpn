@@ -4,251 +4,795 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#050505">
-<title>Neon VPN — подписки</title>
+<meta name="description" content="NeonVpn — подписки БС, ЧС, Mix и Premium для Happ и V2RayTun.">
+<title>NeonVpn — подписки VPN</title>
+
 <style>
-:root{color-scheme:dark}
-*{box-sizing:border-box}
-body{margin:0;background:#050505;color:#f5f5f5;font:16px/1.6 system-ui,sans-serif}
-a{color:inherit;text-decoration:none}
-button{font:inherit;cursor:pointer}
-header,main,footer{max-width:960px;margin:auto;padding:20px}
-header{display:flex;justify-content:space-between;align-items:center}
-.brand{font-weight:800;font-size:24px}
-.channel,.button{border:1px solid #333;border-radius:14px;padding:12px 16px}
-.hero{text-align:center;padding:35px 0 45px}
-.logo{font-size:65px;width:125px;height:125px;margin:auto;display:grid;place-items:center;border:1px solid #444;border-radius:50%;background:radial-gradient(circle,#292929,#080808);box-shadow:0 0 60px #ffffff12}
-h1{font-size:clamp(40px,9vw,68px);letter-spacing:-2px;margin:20px 0 10px;line-height:1.1}
-.hero p,p{color:#aaa}
-h2{font-size:18px;color:#aaa;margin:30px 0 18px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.card{padding:25px;background:linear-gradient(145deg,#171717,#0b0b0b);border:1px solid #303030;border-radius:24px;scroll-margin-top:20px}
-.card.premium{border-color:#777}
-.top{display:flex;justify-content:space-between;align-items:center}
-.icon{font-size:28px}
-.tag{color:#999;font-size:11px;letter-spacing:1px}
-h3{font-size:23px;margin:18px 0 8px}
-.card p{font-size:14px;margin:0 0 22px}
-.button{display:block;width:100%;background:transparent;color:white;text-align:center;font-size:14px;font-weight:650}
-.button:hover{background:#ffffff10}
-.primary{background:#eee;color:#080808;margin-top:10px;border-color:#eee}
-.primary:hover{background:#ccc}
-.steps,.support{padding:24px;background:#111;border:1px solid #303030;border-radius:24px}
-.step{padding:15px 0;color:#aaa}
-.step+.step{border-top:1px solid #292929}
-.step b{color:white;margin-right:12px}
-.clients{display:flex;gap:15px}
-.clients a{flex:1}
-.support{margin-top:35px}
-.support p{margin:0 0 12px}
-.note{text-align:center;font-size:13px;margin:25px 0}
-footer{border-top:1px solid #292929;color:#888;font-size:13px;text-align:center}
-dialog{width:min(440px,calc(100% - 28px));padding:25px;background:#111;color:white;border:1px solid #444;border-radius:24px;max-height:90vh;overflow:auto}
-dialog::backdrop{background:#000c;backdrop-filter:blur(8px)}
-dialog h2{color:white;margin:0;font-size:25px}
-dialog .button{margin-top:12px}
-#manual{width:100%;margin-top:16px;padding:12px;background:#080808;color:#ddd;border:1px solid #444;border-radius:12px;font:12px system-ui}
-.small{font-size:12px;color:#999}
-.close{margin-top:18px;background:none;border:0;color:#aaa;width:100%;padding:10px}
-#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#eee;color:#111;padding:12px 18px;border-radius:14px;z-index:10;width:max-content;max-width:90%;text-align:center}
-button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid white;outline-offset:4px}
-@media(max-width:600px){.grid{grid-template-columns:1fr}.card{padding:22px}.channel{font-size:13px}}
+:root {
+  color-scheme: dark;
+  --bg: #050505;
+  --panel: #111;
+  --border: #303030;
+  --text: #f5f5f5;
+  --muted: #aaa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.6 system-ui, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+header,
+main,
+footer {
+  max-width: 960px;
+  margin: auto;
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.channel,
+.button {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 16px;
+}
+
+.channel:hover {
+  background: #ffffff0a;
+}
+
+.hero {
+  text-align: center;
+  padding: 35px 0 45px;
+}
+
+.logo {
+  width: 125px;
+  height: 125px;
+  margin: auto;
+  display: grid;
+  place-items: center;
+  font-size: 65px;
+  border: 1px solid #444;
+  border-radius: 50%;
+  background: radial-gradient(circle, #292929, #080808);
+  box-shadow: 0 0 60px #ffffff12;
+}
+
+h1 {
+  margin: 20px 0 10px;
+  font-size: clamp(40px, 9vw, 68px);
+  line-height: 1.1;
+  letter-spacing: -2px;
+}
+
+p {
+  color: var(--muted);
+}
+
+.hero p {
+  max-width: 560px;
+  margin: 18px auto;
+}
+
+.badges {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.badge {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  color: #ccc;
+  font-size: 12px;
+  background: #ffffff05;
+}
+
+h2 {
+  margin: 30px 0 18px;
+  font-size: 18px;
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.card {
+  padding: 25px;
+  background: linear-gradient(145deg, #171717, #0b0b0b);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  scroll-margin-top: 20px;
+  transition: border-color .2s, transform .2s;
+}
+
+.card:hover {
+  border-color: #555;
+  transform: translateY(-2px);
+}
+
+.card.premium {
+  border-color: #777;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon {
+  font-size: 28px;
+}
+
+.tag {
+  color: #aaa;
+  font-size: 11px;
+  letter-spacing: .7px;
+  text-align: right;
+}
+
+h3 {
+  margin: 18px 0 8px;
+  font-size: 23px;
+}
+
+.card p {
+  margin: 0 0 22px;
+  font-size: 14px;
+}
+
+.button {
+  display: block;
+  width: 100%;
+  background: transparent;
+  color: white;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 650;
+  transition: background .2s;
+}
+
+.button:hover {
+  background: #ffffff10;
+}
+
+.primary {
+  margin-top: 10px;
+  background: #eee;
+  color: #080808;
+  border-color: #eee;
+}
+
+.primary:hover {
+  background: #ccc;
+}
+
+.steps,
+.support {
+  padding: 24px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+}
+
+.step {
+  padding: 15px 0;
+  color: var(--muted);
+}
+
+.step + .step {
+  border-top: 1px solid #292929;
+}
+
+.step b {
+  color: white;
+  margin-right: 12px;
+}
+
+.clients,
+.social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.clients a,
+.social a {
+  flex: 1;
+  min-width: 130px;
+}
+
+.support {
+  margin-top: 35px;
+}
+
+.support h3 {
+  margin-top: 0;
+}
+
+.support p {
+  margin: 0 0 16px;
+}
+
+.social {
+  margin-top: 12px;
+}
+
+.support-link {
+  display: block;
+  margin-top: 20px;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.note {
+  margin: 25px 0;
+  text-align: center;
+  font-size: 13px;
+}
+
+footer {
+  border-top: 1px solid #292929;
+  color: #888;
+  font-size: 13px;
+  text-align: center;
+}
+
+footer a:hover {
+  color: white;
+}
+
+dialog {
+  width: min(440px, calc(100% - 28px));
+  padding: 25px;
+  max-height: 90vh;
+  overflow: auto;
+  background: #111;
+  color: white;
+  border: 1px solid #444;
+  border-radius: 24px;
+}
+
+dialog::backdrop {
+  background: #000c;
+  backdrop-filter: blur(8px);
+}
+
+dialog h2 {
+  margin: 0;
+  color: white;
+  font-size: 25px;
+}
+
+dialog .button {
+  margin-top: 12px;
+}
+
+#manual {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+  background: #080808;
+  color: #ddd;
+  border: 1px solid #444;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.small {
+  font-size: 12px;
+  color: #999;
+}
+
+.close {
+  width: 100%;
+  margin-top: 18px;
+  padding: 10px;
+  background: none;
+  border: 0;
+  color: #aaa;
+}
+
+#toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 90%;
+  padding: 12px 18px;
+  background: #eee;
+  color: #111;
+  border-radius: 14px;
+  text-align: center;
+  z-index: 10;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 22px;
+  }
+
+  .channel {
+    font-size: 13px;
+  }
+
+  header,
+  main,
+  footer {
+    padding: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
 </style>
 </head>
+
 <body>
 
 <header>
-<a class="brand" href="./">NeonVpn</a>
-<a class="channel" href="https://t.me/+hbYzZE3c9FkxMGJi">Telegram ↗</a>
+  <a class="brand" href="./">NeonVpn</a>
+  <a class="channel" href="https://t.me/+hbYzZE3c9FkxMGJi">
+    Наш канал ↗
+  </a>
 </header>
 
 <main>
-<div class="hero">
-<div class="logo" aria-label="Человек в маске">🥷</div>
-<h1>NEON VPN</h1>
-<p>Выбери подписку и добавь её в Happ или V2RayTun.</p>
-</div>
+  <section class="hero">
+    <div class="logo" aria-label="NeonVpn">🥷</div>
+    <h1>NEON VPN</h1>
+    <p>
+      Выбери подписку, открой Happ или V2RayTun
+      и подтверди добавление.
+    </p>
 
-<h2>Подписки</h2>
-<div class="grid" id="cards"></div>
-<noscript>Для кнопок подключения включи JavaScript.</noscript>
+    <div class="badges">
+      <span class="badge">БС · 578 конфигураций</span>
+      <span class="badge">ЧС · 410 конфигураций</span>
+      <span class="badge">Happ · V2RayTun</span>
+    </div>
+  </section>
 
-<h2>Как подключиться</h2>
-<div class="steps">
-<div class="step"><b>01</b>Установи Happ или V2RayTun.</div>
-<div class="step"><b>02</b>Нажми «Подключить» под нужной подпиской.</div>
-<div class="step"><b>03</b>Выбери приложение и подтверди импорт.</div>
-</div>
+  <h2>Подписки</h2>
 
-<h2>Скачать клиент</h2>
-<div class="clients">
-<a class="button" href="https://www.happ.su/">Happ ↗</a>
-<a class="button" href="https://v2raytun.com/">V2RayTun ↗</a>
-</div>
+  <div class="grid" id="cards"></div>
 
-<div class="support">
-<p>Нужна помощь с подключением?</p>
-<a href="https://t.me/n777nn52">Поддержка @n777nn52 ↗</a>
-</div>
-<p class="note">Доступность зависит от сервера и сети. Если подключение не работает, обнови подписку или выбери другой сервер.</p>
+  <noscript>
+    Для отображения подписок и кнопок подключения включи JavaScript.
+  </noscript>
+
+  <h2>Как подключиться</h2>
+
+  <div class="steps">
+    <div class="step">
+      <b>01</b>Установи Happ или V2RayTun.
+    </div>
+    <div class="step">
+      <b>02</b>Нажми «Подключить» у нужной подписки.
+    </div>
+    <div class="step">
+      <b>03</b>Выбери приложение и подтверди импорт.
+    </div>
+    <div class="step">
+      <b>04</b>Выбери сервер в приложении и подключись.
+    </div>
+  </div>
+
+  <h2>Скачать приложение</h2>
+
+  <div class="clients">
+    <a class="button" href="https://www.happ.su/">
+      Happ ↗
+    </a>
+    <a class="button" href="https://v2raytun.com/">
+      V2RayTun ↗
+    </a>
+  </div>
+
+  <section class="support">
+    <h3>NeonVpn в Telegram</h3>
+    <p>
+      Подписки в боте, новости в канале
+      и помощь с подключением в чате.
+    </p>
+
+    <a class="button primary" href="https://t.me/NeonVpnnnbot">
+      🥷 Открыть бота ↗
+    </a>
+
+    <div class="social">
+      <a class="button" href="https://t.me/+hbYzZE3c9FkxMGJi">
+        📢 Канал ↗
+      </a>
+      <a class="button" href="https://t.me/+MgS_18bij7xkZWQy">
+        💬 Чат ↗
+      </a>
+    </div>
+
+    <a class="support-link" href="https://t.me/n777nn52">
+      Поддержка @n777nn52 ↗
+    </a>
+  </section>
+
+  <p class="note">
+    Количество конфигураций не означает количество отдельных
+    серверов. Доступность зависит от сервера и твоей сети.
+    Если подключение не работает, обнови подписку
+    или выбери другой сервер.
+  </p>
 </main>
 
 <footer>
-NeonVpn ·
-<a href="https://t.me/+hbYzZE3c9FkxMGJi">Наш канал</a> ·
-<a href="https://t.me/+MgS_18bij7xkZWQy">Наш чат</a>
+  NeonVpn ·
+  <a href="https://t.me/+hbYzZE3c9FkxMGJi">Наш канал</a> ·
+  <a href="https://t.me/+MgS_18bij7xkZWQy">Наш чат</a>
 </footer>
 
 <dialog id="picker" aria-labelledby="picker-title">
-<h2 id="picker-title">Выбери приложение</h2>
-<p id="selected"></p>
-<a class="button primary" id="happ">Открыть Happ ↗</a>
-<a class="button" id="v2">Открыть V2RayTun ↗</a>
-<button class="button" id="copy-selected" type="button">Копировать подписку</button>
-<input id="manual" readonly aria-label="Ссылка подписки">
-<p class="small">Приложение должно быть установлено. Подтверди переход и импорт подписки. Если переход не сработал, скопируй ссылку и добавь её вручную. Из Telegram можно открыть сайт во внешнем браузере.</p>
-<p class="small">Поддержка автовыбора зависит от клиента и его версии.</p>
-<button class="close" id="close" type="button">Закрыть</button>
+  <h2 id="picker-title">Выбери приложение</h2>
+
+  <p id="selected"></p>
+
+  <a class="button primary" id="happ">
+    🚀 Добавить в Happ
+  </a>
+
+  <a class="button" id="v2">
+    Добавить в V2RayTun
+  </a>
+
+  <button class="button" id="copy-selected" type="button">
+    Копировать подписку
+  </button>
+
+  <input
+    id="manual"
+    readonly
+    aria-label="Ссылка подписки"
+    spellcheck="false"
+  >
+
+  <p class="small">
+    Приложение должно быть установлено.
+    Подтверди переход и импорт подписки.
+    Если переход не сработал, скопируй ссылку
+    и добавь её вручную.
+    Из Telegram можно открыть сайт во внешнем браузере.
+  </p>
+
+  <p class="small">
+    Новые конфигурации добавлены в обычные БС и ЧС.
+    Подборки автовыбора обновляются отдельно.
+    Поддержка автовыбора зависит от приложения и его версии.
+  </p>
+
+  <button class="close" id="close" type="button">
+    Назад
+  </button>
 </dialog>
 
-<div id="toast" role="status" hidden></div>
+<div id="toast" role="status" aria-live="polite" hidden></div>
 
 <script>
 "use strict";
 
-const base = "https://raw.githubusercontent.com/fndnd6218-glitc/NeonVpn/main/";
+const base =
+  "https://raw.githubusercontent.com/fndnd6218-glitc/NeonVpn/main/";
 
 const packs = [
   {
-    id:"premium", icon:"🥷", tag:"PREMIUM · 15 СЕРВЕРОВ",
-    name:"Neon VPN Premium",
-    text:"15 серверов: по 5 из БС, Mix и ЧС. Источник указан в названии. Без автовыбора.",
-    file:"NeonVpn-Premium.txt"
+    id: "premium",
+    icon: "🥷",
+    tag: "PREMIUM · 15 СЕРВЕРОВ",
+    name: "Neon VPN Premium",
+    text:
+      "15 серверов: по 5 из БС, Mix и ЧС. " +
+      "Источник указан в названии. Без автовыбора.",
+    file: "NeonVpn-Premium.txt"
   },
   {
-    id:"cs", icon:"◼", tag:"ЧС",
-    name:"Чёрный список",
-    text:"Подборка конфигураций для ручного выбора сервера.",
-    file:"NeonVpn-CS.txt"
+    id: "bs",
+    icon: "◻",
+    tag: "БС · 578 КОНФИГУРАЦИЙ",
+    name: "Белые списки",
+    text:
+      "Обновлённая подборка: 578 конфигураций для БС. " +
+      "Выбирай сервер вручную в приложении.",
+    file: "NeonVpn-BS.txt"
   },
   {
-    id:"bs", icon:"◻", tag:"БС",
-    name:"Белые списки",
-    text:"Отдельная подборка конфигураций БС.",
-    file:"NeonVpn-BS.txt"
+    id: "cs",
+    icon: "◼",
+    tag: "ЧС · 410 КОНФИГУРАЦИЙ",
+    name: "Чёрный список",
+    text:
+      "Обновлённая подборка: 410 конфигураций. " +
+      "Страны и названия оформлены в стиле NeonVpn.",
+    file: "NeonVpn-CS.txt"
   },
   {
-    id:"mix", icon:"◈", tag:"MIX",
-    name:"NeonVpn Mix",
-    text:"Общая подборка стран и протоколов.",
-    file:"NeonVpn-Mix.txt"
+    id: "mix",
+    icon: "◈",
+    tag: "MIX",
+    name: "NeonVpn Mix",
+    text:
+      "Общая подборка стран и протоколов. " +
+      "Ручной выбор сервера.",
+    file: "NeonVpn-Mix.txt"
   },
   {
-    id:"cs-auto", icon:"⚡", tag:"ЧС · AUTO",
-    name:"ЧС · Автовыбор",
-    text:"Автоматический выбор сервера по задержке.",
-    file:"NeonVpn-CS-Auto.txt"
+    id: "bs-auto",
+    icon: "⚡",
+    tag: "БС · AUTO",
+    name: "БС · Автовыбор",
+    text:
+      "Отдельная подборка автовыбора. " +
+      "Новые конфигурации обычного БС сюда не добавлены.",
+    file: "NeonVpn-BS-Auto.txt"
   },
   {
-    id:"bs-auto", icon:"⚡", tag:"БС · AUTO",
-    name:"БС · Автовыбор",
-    text:"Автоматический выбор среди конфигураций БС.",
-    file:"NeonVpn-BS-Auto.txt"
+    id: "cs-auto",
+    icon: "⚡",
+    tag: "ЧС · AUTO",
+    name: "ЧС · Автовыбор",
+    text:
+      "Отдельная подборка автовыбора. " +
+      "Новые конфигурации обычного ЧС сюда не добавлены.",
+    file: "NeonVpn-CS-Auto.txt"
   },
   {
-    id:"mix-auto", icon:"⚡", tag:"MIX · AUTO",
-    name:"Mix · Автовыбор",
-    text:"Автоматический выбор сервера из подборки Mix.",
-    file:"NeonVpn-Mix-Auto.json"
+    id: "mix-auto",
+    icon: "⚡",
+    tag: "MIX · AUTO",
+    name: "Mix · Автовыбор",
+    text:
+      "Профиль автовыбора из Mix. " +
+      "Совместимость зависит от приложения.",
+    file: "NeonVpn-Mix-Auto.json"
   }
 ];
 
 const picker = document.getElementById("picker");
 const manual = document.getElementById("manual");
 const toast = document.getElementById("toast");
-let current = null;
-let timer;
 
-function notify(text) {
-  toast.textContent = text;
-  toast.hidden = false;
-  clearTimeout(timer);
-  timer = setTimeout(() => toast.hidden = true, 3500);
+let current = null;
+let toastTimer;
+
+function subscriptionUrl(pack) {
+  return base + pack.file;
 }
 
-async function copy(pack) {
-  const url = base + pack.file;
-  try {
-    await navigator.clipboard.writeText(url);
-    notify("Ссылка подписки скопирована");
-  } catch (_) {
-    openPicker(pack);
-    manual.focus();
-    manual.select();
-    manual.setSelectionRange(0, url.length);
-    notify("Зажми выделенную ссылку и нажми «Копировать»");
-  }
+function notify(message) {
+  toast.textContent = message;
+  toast.hidden = false;
+
+  clearTimeout(toastTimer);
+
+  toastTimer = setTimeout(() => {
+    toast.hidden = true;
+  }, 3500);
 }
 
 function openPicker(pack, changeAddress = true) {
   current = pack;
-  const url = base + pack.file;
+
+  const url = subscriptionUrl(pack);
+
   document.getElementById("selected").textContent = pack.name;
   document.getElementById("happ").href = "happ://add/" + url;
   document.getElementById("v2").href = "v2raytun://import/" + url;
+
   manual.value = url;
 
   if (changeAddress) {
     const address = new URL(location.href);
     address.searchParams.set("sub", pack.id);
     address.hash = "";
+
     history.replaceState(null, "", address);
   }
-  if (!picker.open) picker.showModal();
+
+  if (!picker.open) {
+    picker.showModal();
+  }
+}
+
+async function copySubscription(pack) {
+  const url = subscriptionUrl(pack);
+
+  try {
+    await navigator.clipboard.writeText(url);
+    notify("Ссылка подписки скопирована");
+  } catch (error) {
+    openPicker(pack);
+
+    manual.focus();
+    manual.select();
+    manual.setSelectionRange(0, url.length);
+
+    notify("Скопируй выделенную ссылку вручную");
+  }
+}
+
+function createCard(pack) {
+  const card = document.createElement("article");
+
+  card.className =
+    "card" + (pack.id === "premium" ? " premium" : "");
+
+  card.id = "subscription-" + pack.id;
+
+  const top = document.createElement("div");
+  top.className = "top";
+
+  const icon = document.createElement("span");
+  icon.className = "icon";
+  icon.setAttribute("aria-hidden", "true");
+  icon.textContent = pack.icon;
+
+  const tag = document.createElement("span");
+  tag.className = "tag";
+  tag.textContent = pack.tag;
+
+  top.append(icon, tag);
+
+  const title = document.createElement("h3");
+  title.textContent = pack.name;
+
+  const description = document.createElement("p");
+  description.textContent = pack.text;
+
+  const copyButton = document.createElement("button");
+  copyButton.type = "button";
+  copyButton.className = "button";
+  copyButton.textContent = "Копировать ссылку";
+  copyButton.addEventListener("click", () => {
+    copySubscription(pack);
+  });
+
+  const connectButton = document.createElement("button");
+  connectButton.type = "button";
+  connectButton.className = "button primary";
+  connectButton.textContent = "Подключить ⚡";
+  connectButton.addEventListener("click", () => {
+    openPicker(pack);
+  });
+
+  card.append(
+    top,
+    title,
+    description,
+    copyButton,
+    connectButton
+  );
+
+  return card;
 }
 
 for (const pack of packs) {
-  const card = document.createElement("article");
-  card.className = "card" + (pack.id === "premium" ? " premium" : "");
-  card.id = "subscription-" + pack.id;
-  card.innerHTML = `
-    <div class="top">
-      <span class="icon" aria-hidden="true">${pack.icon}</span>
-      <span class="tag">${pack.tag}</span>
-    </div>
-    <h3>${pack.name}</h3>
-    <p>${pack.text}</p>
-    <button class="button copy" type="button">Копировать ссылку</button>
-    <button class="button primary connect" type="button">Подключить ⚡</button>
-  `;
-  card.querySelector(".copy").onclick = () => copy(pack);
-  card.querySelector(".connect").onclick = () => openPicker(pack);
-  document.getElementById("cards").append(card);
+  document.getElementById("cards").append(createCard(pack));
 }
 
-document.getElementById("close").onclick = () => picker.close();
-document.getElementById("copy-selected").onclick = () => {
-  if (current) copy(current);
-};
+document.getElementById("close").addEventListener("click", () => {
+  picker.close();
+});
 
-manual.onclick = () => {
+document.getElementById("copy-selected").addEventListener(
+  "click",
+  () => {
+    if (current) {
+      copySubscription(current);
+    }
+  }
+);
+
+manual.addEventListener("click", () => {
   manual.select();
   manual.setSelectionRange(0, manual.value.length);
-};
+});
+
+picker.addEventListener("click", (event) => {
+  if (event.target !== picker) {
+    return;
+  }
+
+  const bounds = picker.getBoundingClientRect();
+
+  const outside =
+    event.clientX < bounds.left ||
+    event.clientX > bounds.right ||
+    event.clientY < bounds.top ||
+    event.clientY > bounds.bottom;
+
+  if (outside) {
+    picker.close();
+  }
+});
 
 function fromAddress() {
   const id = new URLSearchParams(location.search).get("sub");
-  const pack = packs.find(item => item.id === id);
-  if (!pack) return;
-  document.getElementById("subscription-" + id).scrollIntoView({block:"center"});
+  const pack = packs.find((item) => item.id === id);
+
+  if (!pack) {
+    return;
+  }
+
+  document.getElementById(
+    "subscription-" + pack.id
+  ).scrollIntoView({
+    block: "center"
+  });
+
   openPicker(pack, false);
 }
 
 window.addEventListener("popstate", () => {
-  if (picker.open) picker.close();
+  if (picker.open) {
+    picker.close();
+  }
+
   fromAddress();
 });
 
 fromAddress();
 </script>
+
 </body>
 </html>
