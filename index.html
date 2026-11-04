@@ -2,1090 +2,498 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#090909">
-<meta name="description" content="NeonVpn: подписки БС, ЧС и Mix, подключение в Happ и V2RayTun, QR-коды и помощь с настройкой.">
-<title>NeonVpn ⚡ — выбери своё подключение</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0e0c">
+<title>NeonVpn ⚡</title>
 <style>
-:root {
-  color-scheme: dark;
-  --bg: #090909;
-  --panel: #131313;
-  --line: #2c2c2c;
-  --text: #f5f5f5;
-  --muted: #aaa;
-  --accent: #c8ff80;
+:root{color-scheme:dark;font-family:system-ui,sans-serif;--green:#c7ff83;--muted:#a7b4ab;--line:#303a32}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:85px}
+body{margin:0;background:#0b0e0c;color:#f4f7f4;line-height:1.6}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+button{cursor:pointer}
+.wrap{width:min(1060px,calc(100% - 30px));margin:auto}
+header{position:sticky;top:0;z-index:5;background:#0b0e0cf2;border-bottom:1px solid var(--line);backdrop-filter:blur(15px)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;min-height:70px;gap:12px}
+.logo{font-size:23px;font-weight:900}
+.logo span{color:var(--green)}
+nav{display:flex;gap:16px;font-size:14px}
+.hero{padding:70px 0 40px;background:radial-gradient(ellipse at top right,#45622d44,transparent 65%)}
+.tag{color:var(--green);font-size:12px;letter-spacing:2px}
+h1{font-size:clamp(40px,7vw,70px);line-height:1.07;letter-spacing:-2px;margin:20px 0}
+h1 span{color:var(--green)}
+h2{font-size:29px;letter-spacing:-1px}
+h3{font-size:23px;margin:10px 0}
+.muted{color:var(--muted)}
+.hero p{max-width:650px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border:1px solid var(--line);border-radius:13px;background:#20291f;color:#f4f7f4;font-weight:650;text-align:center}
+.btn:hover{background:#35432e}
+.primary{background:var(--green);color:#13200b;border-color:var(--green)}
+.primary:hover{background:#dcffb3}
+.actions{display:flex;flex-wrap:wrap;gap:9px}
+section{padding:22px 0}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{padding:24px;border:1px solid var(--line);border-radius:23px;background:linear-gradient(135deg,#1b241b,#121813);min-width:0;scroll-margin-top:90px}
+.card p{font-size:14px;color:var(--muted);min-height:44px}
+.card-top{display:flex;justify-content:space-between;align-items:center}
+.icon{font-size:27px}
+.count{font-size:12px;color:var(--green)}
+.apps{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.apps .btn{font-size:13px;padding:10px 6px}
+.tools{display:flex;gap:8px;margin:9px 0}
+.tools .btn{flex:1;font-size:13px;background:transparent}
+.url{display:block;width:100%;margin:12px 0 5px;padding:10px;border:1px solid var(--line);border-radius:10px;background:#0c100d;color:#bdc9bf;font:11px monospace}
+.direct{font-size:12px;color:var(--green);text-decoration:underline;overflow-wrap:anywhere}
+.notice{padding:18px;border:1px solid var(--line);border-radius:17px;margin:20px 0;color:var(--muted)}
+.notice strong{color:#fff}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.step{padding:20px;border:1px solid var(--line);border-radius:19px}
+.step b{color:var(--green)}
+.step p{color:var(--muted);font-size:14px}
+details{border-bottom:1px solid var(--line);padding:17px 0}
+summary{cursor:pointer;font-weight:650}
+details p{color:var(--muted);font-size:14px}
+.telegram{padding:26px;background:#182116;border:1px solid var(--line);border-radius:23px}
+footer{margin-top:35px;padding:25px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+dialog{background:#172016;color:#fff;border:1px solid var(--line);border-radius:23px;padding:23px;width:min(430px,calc(100% - 24px));max-height:92dvh;overflow:auto}
+dialog::backdrop{background:#000c;backdrop-filter:blur(6px)}
+.dialog-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.dialog-top h2{font-size:23px;margin:5px 0}
+.close{background:#293528;color:#fff;border:0;border-radius:10px;width:38px;height:38px;font-size:23px}
+canvas{display:block;width:min(100%,290px);height:auto;margin:20px auto;background:#fff;border-radius:12px}
+dialog p{font-size:13px;color:var(--muted)}
+#message{min-height:22px;color:var(--green)}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:10;padding:12px 18px;border-radius:13px;background:var(--green);color:#14200c;max-width:calc(100% - 24px);width:max-content;font-size:13px}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+.selected{border-color:var(--green)}
+@media(max-width:700px){
+.cards,.steps{grid-template-columns:1fr}
+.hero{padding-top:42px}
+nav{gap:12px;font-size:12px}
+nav .help-link{display:none}
+.card{padding:20px}
+h1{letter-spacing:-1.5px}
 }
-
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 30px; }
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font: 16px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-
-body.modal-open { overflow: hidden; }
-a { color: inherit; text-decoration: none; }
-button, input { font: inherit; }
-button, a, input { -webkit-tap-highlight-color: transparent; }
-button { cursor: pointer; }
-[hidden] { display: none !important; }
-
-.wrap {
-  max-width: 1050px;
-  margin: auto;
-  padding: 0 24px;
-}
-
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding-top: 24px !important;
-  padding-bottom: 24px !important;
-  border-bottom: 1px solid var(--line);
-}
-
-.brand {
-  font-weight: 850;
-  font-size: 23px;
-  letter-spacing: -1px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.brand span { color: var(--accent); }
-nav { display: flex; gap: 20px; align-items: center; font-size: 14px; }
-nav > a:first-child { color: var(--muted); }
-.nav-bot { border: 1px solid var(--line); border-radius: 99px; padding: 9px 17px; }
-
-.hero {
-  position: relative;
-  overflow: hidden;
-  padding: 65px 0 38px;
-  text-align: center;
-}
-
-.hero:before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: radial-gradient(ellipse at 50% 25%, #ffffff0b, transparent 60%);
-  pointer-events: none;
-}
-
-.hero-icon {
-  width: 82px;
-  height: 82px;
-  margin: auto;
-  display: grid;
-  place-items: center;
-  border: 1px solid #454545;
-  border-radius: 26px;
-  background: linear-gradient(145deg, #292929, #101010);
-  box-shadow: 0 12px 60px #ffffff0b;
-  font-size: 42px;
-}
-
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 25px;
-  color: var(--accent);
-  font-size: 12px;
-  font-weight: 650;
-  letter-spacing: 1.4px;
-  text-transform: uppercase;
-}
-
-.dot { width: 6px; height: 6px; background: currentColor; border-radius: 50%; }
-
-h1 {
-  font-size: clamp(43px, 8vw, 78px);
-  line-height: 1.05;
-  letter-spacing: -3px;
-  margin: 17px 0 20px;
-  font-weight: 850;
-}
-
-h1 span { color: var(--accent); }
-p { color: var(--muted); }
-.hero > p { max-width: 550px; margin: 0 auto 25px; }
-.hero-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 47px;
-  padding: 11px 18px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: #ffffff04;
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 650;
-  text-align: center;
-  transition: background .18s, border-color .18s, transform .18s;
-}
-
-.btn:hover { background: #ffffff0c; border-color: #555; }
-.btn:active { transform: scale(.985); }
-.btn.primary { background: var(--text); color: #111; border-color: var(--text); }
-.btn.primary:hover { background: #d5d5d5; }
-.btn.accent { background: var(--accent); border-color: var(--accent); color: #10170a; }
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  max-width: 570px;
-  margin: 38px auto 0;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  background: #ffffff03;
-}
-
-.stat { padding: 14px 8px; }
-.stat + .stat { border-left: 1px solid var(--line); }
-.stat strong { display: block; font-size: 26px; line-height: 1.2; letter-spacing: -1px; }
-.stat span { font-size: 12px; color: var(--muted); }
-
-.section-head {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 16px;
-  margin: 34px 0 19px;
-}
-
-h2 { font-size: 27px; letter-spacing: -.8px; line-height: 1.2; margin: 0; }
-.section-head p { margin: 8px 0 0; font-size: 14px; }
-
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 5px;
-  background: #111;
-  border: 1px solid var(--line);
-  border-radius: 15px;
-  width: max-content;
-  max-width: 100%;
-  margin-bottom: 20px;
-}
-
-.filter {
-  min-height: 39px;
-  padding: 7px 15px;
-  border: 0;
-  border-radius: 10px;
-  color: var(--muted);
-  background: transparent;
-  font-size: 13px;
-  font-weight: 650;
-}
-
-.filter[aria-pressed="true"] { background: #f0f0f0; color: #111; }
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.card {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  padding: 25px;
-  border: 1px solid var(--line);
-  border-radius: 23px;
-  background: linear-gradient(145deg, #181818, #101010);
-  transition: transform .2s, border-color .2s;
-}
-
-.card:hover { border-color: #505050; transform: translateY(-3px); }
-.card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-
-.card-icon {
-  display: grid;
-  place-items: center;
-  width: 43px;
-  height: 43px;
-  border: 1px solid #363636;
-  border-radius: 13px;
-  background: #ffffff05;
-  font-size: 21px;
-}
-
-.tag { font-size: 10px; letter-spacing: .8px; color: #b4b4b4; text-transform: uppercase; text-align: right; }
-.card h3 { margin: 17px 0 9px; font-size: 23px; line-height: 1.25; letter-spacing: -.5px; }
-.card p { margin: 0 0 24px; font-size: 14px; flex: 1; }
-.card-actions { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
-.card-actions .copy { padding: 11px 14px; font-size: 18px; }
-
-.callout {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 24px;
-  padding: 27px;
-  margin: 24px 0 38px;
-  border: 1px solid #4a553b;
-  border-radius: 23px;
-  background: linear-gradient(115deg, #182012, #10120f);
-}
-
-.callout h3 { font-size: 23px; letter-spacing: -.5px; margin: 0 0 5px; }
-.callout p { margin: 0; font-size: 14px; }
-.callout .btn { flex-shrink: 0; }
-
-.steps {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 21px;
-}
-
-.step { padding: 22px; border: 1px solid var(--line); border-radius: 20px; background: #101010; }
-.step > b { display: block; color: var(--accent); font-size: 12px; letter-spacing: 1px; margin-bottom: 12px; }
-.step h3 { font-size: 17px; margin: 0 0 8px; }
-.step p { font-size: 13px; margin: 0; }
-.apps { display: flex; gap: 10px; flex-wrap: wrap; margin: 17px 0 38px; }
-
-.faq {
-  margin: 20px 0 36px;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  background: #111;
-  overflow: hidden;
-}
-
-details { padding: 17px 22px; }
-details + details { border-top: 1px solid var(--line); }
-summary { cursor: pointer; font-size: 14px; font-weight: 650; }
-details p { font-size: 14px; margin: 11px 0 0; max-width: 750px; }
-
-.community { padding: 28px; border: 1px solid var(--line); border-radius: 24px; background: #121212; }
-.community h2 { font-size: 24px; }
-.community p { font-size: 14px; margin: 10px 0 18px; }
-.social { display: flex; flex-wrap: wrap; gap: 9px; }
-.note { font-size: 12px; max-width: 730px; margin: 25px auto; text-align: center; color: #8e8e8e; }
-
-footer {
-  margin-top: 35px;
-  border-top: 1px solid var(--line);
-  padding-top: 22px !important;
-  padding-bottom: 28px !important;
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  color: #999;
-  font-size: 12px;
-}
-
-footer a { color: #ccc; }
-
-dialog {
-  width: min(470px, calc(100% - 24px));
-  max-height: calc(100dvh - 30px);
-  overflow: auto;
-  margin: auto;
-  padding: 25px;
-  border: 1px solid #424242;
-  border-radius: 26px;
-  background: #141414;
-  color: var(--text);
-  box-shadow: 0 30px 150px #0009;
-}
-
-dialog::backdrop { background: #000b; backdrop-filter: blur(9px); }
-.dialog-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-dialog h2 { font-size: 24px; }
-
-.icon-btn {
-  width: 37px;
-  height: 37px;
-  border-radius: 50%;
-  border: 1px solid #3b3b3b;
-  background: #ffffff04;
-  color: #ddd;
-  font-size: 23px;
-  line-height: 1;
-}
-
-.dialog-subtitle { margin: 12px 0 18px; font-size: 14px; }
-.dialog-actions { display: grid; gap: 9px; }
-.dialog-actions .btn { width: 100%; }
-.tools { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 10px; }
-.url-label { display: block; margin: 20px 0 6px; color: #aaa; font-size: 12px; }
-
-#manual {
-  width: 100%;
-  padding: 13px;
-  border: 1px solid #393939;
-  background: #090909;
-  border-radius: 12px;
-  color: #ddd;
-  font: 12px/1.5 ui-monospace, monospace;
-}
-
-.small { font-size: 12px; line-height: 1.6; }
-.qr-box { margin: 17px 0 0; text-align: center; }
-
-.qr-box img {
-  display: block;
-  width: min(240px, 100%);
-  height: auto;
-  aspect-ratio: 1;
-  background: white;
-  border: 12px solid white;
-  border-radius: 15px;
-  margin: auto;
-}
-
-.qr-box p { font-size: 12px; margin: 12px 0; }
-.dialog-back { width: 100%; margin-top: 10px; background: transparent; border: 0; color: #aaa; min-height: 44px; font-size: 14px; }
-
-#toast {
-  position: fixed;
-  bottom: max(22px, env(safe-area-inset-bottom));
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 30;
-  max-width: calc(100% - 32px);
-  width: max-content;
-  padding: 13px 18px;
-  border-radius: 15px;
-  background: #eee;
-  color: #111;
-  box-shadow: 0 10px 40px #0005;
-  font-size: 14px;
-  text-align: center;
-}
-
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-
-@media (max-width: 640px) {
-  .wrap { padding: 0 17px; }
-  header { padding-top: 18px !important; padding-bottom: 18px !important; }
-  nav { gap: 12px; }
-  nav > a:first-child { display: none; }
-  .brand { font-size: 21px; }
-  .hero { padding: 38px 0 25px; }
-  .hero-icon { width: 70px; height: 70px; font-size: 35px; border-radius: 22px; }
-  h1 { letter-spacing: -2px; }
-  .hero > p { font-size: 14px; max-width: 330px; }
-  .stats { margin-top: 28px; }
-  .stat strong { font-size: 24px; }
-  .grid, .steps { grid-template-columns: 1fr; }
-  .card { padding: 23px; }
-  .callout { align-items: stretch; flex-direction: column; padding: 23px; gap: 16px; }
-  .callout .btn { width: 100%; }
-  .section-head { margin-top: 27px; }
-  h2 { font-size: 25px; }
-  .step { padding: 20px; }
-  .step > b { margin-bottom: 6px; }
-  .community { padding: 23px; }
-  footer { flex-wrap: wrap; }
-  dialog { padding: 22px; }
-  .tools .btn { padding: 11px 8px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *:before, *:after {
-    transition: none !important;
-    animation: none !important;
-  }
+@media(prefers-reduced-motion:reduce){
+html{scroll-behavior:auto}
 }
 </style>
 </head>
-
 <body>
 
-<header class="wrap">
-  <a class="brand" href="./" aria-label="NeonVpn — главная">
-    NeonVpn<span>⚡</span>
-  </a>
-
-  <nav aria-label="Главное меню">
-    <a href="#subscriptions">Подписки</a>
-    <a class="nav-bot" href="https://t.me/NeonVpnnnbot">
-      Telegram ↗
-    </a>
-  </nav>
+<header>
+<div class="wrap">
+<a class="logo" href="#top">NEON<span>VPN ⚡</span></a>
+<nav>
+<a href="#subs">Подписки</a>
+<a class="help-link" href="#help">Инструкция</a>
+<a href="https://t.me/NeonVPNorg" target="_blank" rel="noopener noreferrer">Наш канал ↗</a>
+</nav>
+</div>
 </header>
 
-<main class="wrap">
+<main class="wrap" id="top">
 
-  <section class="hero" aria-labelledby="hero-title">
-    <div class="hero-icon" aria-hidden="true">🥷</div>
+<section class="hero">
+<div class="tag">NEONVPN · ПОДКЛЮЧЕНИЕ</div>
+<h1>Твой VPN.<br><span>В одно нажатие.</span></h1>
+<p class="muted">Выбери подписку и открой её в Happ, v2RayTun или INCY. Прямые ссылки и QR-коды всегда под рукой.</p>
+<div class="actions">
+<a class="btn primary" href="#subs">Выбрать подписку ↓</a>
+<a class="btn" href="https://t.me/NeonVpnnnbot" target="_blank" rel="noopener noreferrer">🤖 Наш бот</a>
+</div>
+</section>
 
-    <div class="eyebrow">
-      <span class="dot"></span>
-      Твоё подключение. Твой выбор.
-    </div>
+<section id="subs">
+<h2>Подписки NeonVpn</h2>
+<p class="muted">Нажми название установленного приложения, подтверди импорт и выбери сервер.</p>
 
-    <h1 id="hero-title">NEON <span>VPN</span></h1>
+<div class="cards">
 
-    <p>
-      Подписки для видео, игр и общения.<br>
-      Выбирай подборку и добавляй её в приложение.
-    </p>
+<article class="card" id="pack-bs" data-pack="bs">
+<div class="card-top">
+<span class="icon">🤍</span>
+<span class="count">36 конфигов</span>
+</div>
+<h3>Белые списки</h3>
+<p>Подборка для сетей с белыми списками. Проверь несколько серверов в своей сети.</p>
+<a class="direct" href="https://raw.githubusercontent.com/fndnd6218-glitc/NeonVpn/main/NeonVpn-BS.txt">Открыть ссылку подписки ↗</a>
+</article>
 
-    <div class="hero-actions">
-      <a class="btn primary" href="#subscriptions">
-        Выбрать подписку ↓
-      </a>
-      <a class="btn" href="https://t.me/NeonVpnnnbot">
-        Открыть бота ↗
-      </a>
-    </div>
+<article class="card" id="pack-cs" data-pack="cs">
+<div class="card-top">
+<span class="icon">🖤</span>
+<span class="count">69 конфигов</span>
+</div>
+<h3>Чёрный список</h3>
+<p>Подборка для обычных ограничений. Если сервер недоступен, выбери другой.</p>
+<a class="direct" href="https://raw.githubusercontent.com/fndnd6218-glitc/NeonVpn/main/NeonVpn-CS.txt">Открыть ссылку подписки ↗</a>
+</article>
 
-    <div class="stats" aria-label="Количество конфигураций в обычных подборках">
-      <div class="stat">
-        <strong id="count-bs">593</strong>
-        <span>Белые списки</span>
-      </div>
-      <div class="stat">
-        <strong id="count-cs">465</strong>
-        <span>Чёрный список</span>
-      </div>
-      <div class="stat">
-        <strong id="count-mix">396</strong>
-        <span>Mix</span>
-      </div>
-    </div>
-  </section>
+<article class="card" id="pack-mix" data-pack="mix">
+<div class="card-top">
+<span class="icon">🔀</span>
+<span class="count">84 конфига</span>
+</div>
+<h3>Mix</h3>
+<p>Разные страны и варианты подключения в одной подборке. Удобно для начала.</p>
+<a class="direct" href="https://raw.githubusercontent.com/fndnd6218-glitc/NeonVpn/main/NeonVpn-Mix.txt">Открыть ссылку подписки ↗</a>
+</article>
 
-  <section id="subscriptions" aria-labelledby="subscriptions-title">
-    <div class="section-head">
-      <div>
-        <h2 id="subscriptions-title">Выбери свою подписку</h2>
-        <p>Ссылка, быстрый импорт или QR-код — как удобнее.</p>
-      </div>
-    </div>
+<article class="card" id="pack-premium" data-pack="premium">
+<div class="card-top">
+<span class="icon">🥷</span>
+<span class="count">15 конфигов</span>
+</div>
+<h3>Premium</h3>
+<p>Отдельная опубликованная подборка. Персональный доступ можно уточнить в боте.</p>
+<a class="direct" href="https://raw.githubusercontent.com/fndnd6218-glitc/NeonVpn/main/NeonVpn-Premium.txt">Открыть ссылку подписки ↗</a>
+</article>
 
-    <div class="filters" role="group" aria-label="Фильтр подписок">
-      <button class="filter" type="button" data-filter="all" aria-pressed="true">
-        Все
-      </button>
-      <button class="filter" type="button" data-filter="manual" aria-pressed="false">
-        Обычные
-      </button>
-      <button class="filter" type="button" data-filter="auto" aria-pressed="false">
-        Автовыбор
-      </button>
-    </div>
+</div>
 
-    <div class="grid" id="cards"></div>
+<noscript>
+<p class="notice">Включи JavaScript для кнопок приложений и QR-кодов. Прямые ссылки подписок доступны выше.</p>
+</noscript>
 
-    <noscript>
-      <p>
-        Включи JavaScript для быстрого подключения.
-        Прямые ссылки:
-        <a href="https://raw.githubusercontent.com/fndnd6218-glitc/NeonVpn/main/NeonVpn-BS.txt">БС</a> ·
-        <a href="https://raw.githubusercontent.com/fndnd6218-glitc/NeonVpn/main/NeonVpn-CS.txt">ЧС</a> ·
-        <a href="https://raw.githubusercontent.com/fndnd6218-glitc/NeonVpn/main/NeonVpn-Mix.txt">Mix</a>.
-      </p>
-    </noscript>
-  </section>
+<div class="notice">
+<strong>Сервер не работает? Переключись на другой.</strong>
+Обнови подписку в приложении и повтори проверку пинга.
+Доступность зависит от сети, оператора и нагрузки.
+</div>
+</section>
 
-  <section class="callout" aria-labelledby="paid-title">
-    <div>
-      <h3 id="paid-title">Нужно больше? Выбирай тариф.</h3>
-      <p>
-        Pro · Master · Gold · VIP<br>
-        Актуальные цены и условия — в разделе
-        «Купить VPN» нашего бота.
-      </p>
-    </div>
-    <a class="btn accent" href="https://t.me/NeonVpnnnbot">
-      Смотреть в боте ↗
-    </a>
-  </section>
+<section id="help">
+<h2>Как подключиться</h2>
+<div class="steps">
 
-  <section id="how" aria-labelledby="how-title">
-    <h2 id="how-title">Подключение за три шага</h2>
+<div class="step">
+<b>01 / Установи приложение</b>
+<p>Выбери Happ, v2RayTun или INCY. Ссылки на официальные сайты — ниже.</p>
+</div>
 
-    <div class="steps">
-      <div class="step">
-        <b>01 / ПРИЛОЖЕНИЕ</b>
-        <h3>Установи клиент</h3>
-        <p>Happ или V2RayTun на своём устройстве.</p>
-      </div>
+<div class="step">
+<b>02 / Добавь подписку</b>
+<p>Нажми кнопку приложения. Или скопируй ссылку и добавь её в клиенте через «+» → импорт по URL или из буфера.</p>
+</div>
 
-      <div class="step">
-        <b>02 / ПОДПИСКА</b>
-        <h3>Добавь подборку</h3>
-        <p>
-          Нажми «Подключить» и выбери приложение.
-          Подтверди импорт.
-        </p>
-      </div>
+<div class="step">
+<b>03 / Выбери сервер</b>
+<p>Разреши VPN-подключение. Проверь пинг, выбери доступный сервер и подключись. Если он не работает — попробуй другой.</p>
+</div>
 
-      <div class="step">
-        <b>03 / ПОДКЛЮЧЕНИЕ</b>
-        <h3>Выбери сервер</h3>
-        <p>
-          Обнови подписку, выбери сервер
-          и включи подключение.
-        </p>
-      </div>
-    </div>
+</div>
 
-    <div class="apps">
-      <a class="btn" href="https://www.happ.su/">
-        Скачать Happ ↗
-      </a>
-      <a class="btn" href="https://v2raytun.com/">
-        Скачать V2RayTun ↗
-      </a>
-    </div>
-  </section>
+<div class="actions" style="margin-top:18px">
+<a class="btn" href="https://www.happ.su/" target="_blank" rel="noopener noreferrer">Скачать Happ ↗</a>
+<a class="btn" href="https://v2raytun.com/" target="_blank" rel="noopener noreferrer">Скачать v2RayTun ↗</a>
+<a class="btn" href="https://incy.cc/" target="_blank" rel="noopener noreferrer">Скачать INCY ↗</a>
+</div>
+</section>
 
-  <section aria-labelledby="faq-title">
-    <h2 id="faq-title">Если остались вопросы</h2>
+<section>
+<h2>Если что-то не работает</h2>
 
-    <div class="faq">
-      <details>
-        <summary>Приложение не открывается по кнопке</summary>
-        <p>
-          Проверь, что клиент установлен.
-          Из Telegram открой сайт во внешнем браузере.
-          Можно скопировать ссылку подписки
-          и добавить её вручную в приложении.
-        </p>
-      </details>
+<details open>
+<summary>Сервер недоступен или высокий пинг</summary>
+<p>Отключись, обнови подписку и выбери другой сервер. Проверь пинг. Если не помогло, попробуй другую страну или переключись между Wi-Fi и мобильной сетью.</p>
+</details>
 
-      <details>
-        <summary>Как подключиться по QR-коду?</summary>
-        <p>
-          Открой карточку подписки и нажми «QR-код».
-          На другом устройстве открой сканер импорта
-          внутри VPN-приложения.
-          На одном телефоне удобнее воспользоваться
-          кнопкой приложения или скопировать ссылку.
-        </p>
-      </details>
+<details>
+<summary>Приложение не открывается по кнопке</summary>
+<p>Установи нужный клиент и разреши браузеру открыть приложение. Если сайт открыт внутри Telegram — открой его в Chrome или Safari. Можно скопировать ссылку и добавить вручную через «+».</p>
+</details>
 
-      <details>
-        <summary>Почему сервер не подключается?</summary>
-        <p>
-          Доступность зависит от сервера, оператора и сети.
-          Обнови подписку, попробуй другой сервер или подборку.
-          Количество конфигураций не равно
-          количеству отдельных серверов.
-        </p>
-      </details>
+<details>
+<summary>Как добавить через QR-код</summary>
+<p>Нажми «QR-код» и отсканируй его сканером VPN-приложения на другом устройстве. На том же телефоне удобнее нажать кнопку приложения или скопировать ссылку.</p>
+</details>
 
-      <details>
-        <summary>Что означает «Автовыбор»?</summary>
-        <p>
-          Это отдельные профили, которые обновляются
-          отдельно от обычных подборок.
-          Поддержка формата и выбора сервера
-          зависит от приложения и его версии.
-        </p>
-      </details>
-    </div>
-  </section>
+<details>
+<summary>VPN подключён, а интернет не работает</summary>
+<p>Выбери другой сервер. На время проверки отключи другой VPN или прокси. Обнови клиент и подписку. Если проблема остаётся, напиши в чат: укажи приложение, оператора и название сервера.</p>
+</details>
+</section>
 
-  <section class="community" aria-labelledby="community-title">
-    <h2 id="community-title">NeonVpn рядом</h2>
-    <p>
-      Обновления в канале, общение в чате
-      и помощь с настройкой.
-    </p>
-
-    <div class="social">
-      <a class="btn primary" href="https://t.me/NeonVpnnnbot">
-        🥷 Наш бот
-      </a>
-      <a class="btn" href="https://t.me/+9RfGlWsHNuA3NWZi">
-        📢 Канал
-      </a>
-      <a class="btn" href="https://t.me/+MgS_18bij7xkZWQy">
-        💬 Чат
-      </a>
-      <a class="btn" href="https://t.me/n777nn52">
-        🎧 Поддержка
-      </a>
-    </div>
-  </section>
-
-  <p class="note">
-    Скорость и пинг зависят от сети и выбранного сервера.
-    Бесплатные подборки могут содержать
-    разные варианты подключения к одному серверу.
-  </p>
+<section>
+<div class="telegram">
+<h2>Мы в Telegram</h2>
+<p class="muted">Новости в канале, подписки в боте, вопросы в чате.</p>
+<div class="actions">
+<a class="btn primary" href="https://t.me/NeonVPNorg" target="_blank" rel="noopener noreferrer">📢 Канал</a>
+<a class="btn" href="https://t.me/NeonVpnnnbot" target="_blank" rel="noopener noreferrer">🤖 Бот</a>
+<a class="btn" href="https://t.me/+MgS_18bij7xkZWQy" target="_blank" rel="noopener noreferrer">💬 Чат</a>
+<a class="btn" href="https://t.me/n777nn52" target="_blank" rel="noopener noreferrer">Поддержка</a>
+</div>
+</div>
+</section>
 
 </main>
 
-<footer class="wrap">
-  <span>NeonVpn ⚡ · Твоё подключение. Твой выбор.</span>
-  <a href="#how">Помощь с подключением ↑</a>
+<footer>
+<div class="wrap">
+NeonVpn ⚡ ·
+<a href="https://t.me/NeonVPNorg">@NeonVPNorg</a> ·
+<a href="#top">Наверх ↑</a>
+</div>
 </footer>
 
-<dialog id="picker" aria-labelledby="picker-title" aria-describedby="selected">
-  <div class="dialog-top">
-    <h2 id="picker-title">Подключить подписку</h2>
-    <button class="icon-btn" type="button" id="close" aria-label="Закрыть">
-      ×
-    </button>
-  </div>
-
-  <p class="dialog-subtitle" id="selected"></p>
-
-  <div class="dialog-actions">
-    <a class="btn primary" id="happ">Добавить в Happ ↗</a>
-    <a class="btn" id="v2">Добавить в V2RayTun ↗</a>
-    <button class="btn" type="button" id="copy-selected">
-      Копировать ссылку
-    </button>
-  </div>
-
-  <div class="tools">
-    <button
-      class="btn"
-      type="button"
-      id="show-qr"
-      aria-expanded="false"
-      aria-controls="qr-box"
-    >
-      ▦ QR-код
-    </button>
-
-    <button class="btn" type="button" id="share">
-      Поделиться ↗
-    </button>
-  </div>
-
-  <div class="qr-box" id="qr-box" hidden>
-    <img
-      id="qr-image"
-      width="240"
-      height="240"
-      alt="QR-код ссылки подписки"
-    >
-    <p id="qr-note">
-      Сканируй через импорт подписки на другом устройстве.
-    </p>
-  </div>
-
-  <label class="url-label" for="manual">
-    Ссылка для ручного импорта
-  </label>
-
-  <input id="manual" readonly spellcheck="false" autocomplete="off">
-
-  <p class="small">
-    Если кнопка не сработала,
-    скопируй ссылку и импортируй вручную.
-    <a id="raw-file" target="_blank" rel="noopener noreferrer">
-      Открыть файл ↗
-    </a>
-  </p>
-
-  <p class="small" id="auto-note" hidden>
-    Профили автовыбора обновляются отдельно.
-    Совместимость зависит от приложения.
-  </p>
-
-  <p class="small">
-    При показе QR-кода ссылка передаётся
-    внешнему сервису генерации QR.
-  </p>
-
-  <button class="dialog-back" type="button" id="back">
-    ← Назад к подпискам
-  </button>
+<dialog id="modal">
+<div class="dialog-top">
+<h2 id="qr-title">QR-код</h2>
+<button class="close" id="close" aria-label="Закрыть">×</button>
+</div>
+<canvas id="qr" aria-label="QR-код подписки"></canvas>
+<p>Отсканируй код в VPN-приложении. Внутри — ссылка подписки.</p>
+<input class="url" id="qr-url" readonly aria-label="Ссылка подписки">
+<p id="message" role="status"></p>
+<div class="actions">
+<button class="btn primary" id="qr-copy">Скопировать</button>
+<button class="btn" id="qr-save">Сохранить QR</button>
+</div>
 </dialog>
 
-<div id="toast" role="status" aria-live="polite" hidden></div>
+<div id="toast" role="status" hidden></div>
 
 <script>
 "use strict";
 
-const BASE =
-  "https://raw.githubusercontent.com/fndnd6218-glitc/NeonVpn/main/";
+const QRDATA = {
+bs: {
+n: 37,
+bits: "/krUc/wRxQiQbp7whLt0tURF26Masa7BdZlpB/qqqq/gDQnWAJbY/O0Epb52MHzz1pDf+ekrlAM+9N1x0r1PQ58KMiwOoy0BjhBumoaX8066L1Xy1JIaz3nPuzNrKuFeqVgBJFWsSuDbsCUm1anAY1SuxkAOu5Qy5q5zavqqYYnWD+T98P8ARSHMb/gjIWswWeOxHLpyWc/d1Dju7K6cNo5nBLYbjg/orP2BgA=="
+},
+cs: {
+n: 37,
+bits: "/i4BI/wWTjRQbqTBQrt1SLu126Mrdq7BIgcRB/qqqq/gEjUlAIKLO/Zx6oGJz6iCEYyue1dSc5ZqoYgk2IG8jKN69TB/bJo+ce8fH5rmNmFTyMujpcdPmgA8dA+Y/P0vbib826pSnPSqdyMTsje5YiH7kxfk9KjBLbICredyvnYp+umMN/sAQr+0S/h+dCpwTp9DE7plnt+t08cRE26N85IXBDhiaZ/t+ajUgA=="
+},
+mix: {
+n: 37,
+bits: "/iRaS/wTOhTQbrNDQrt1DIfF260vdq7BZpUZB/qqqq/gFAWnAL5M2/PnIaj4CLDBcYyuEuZ6Ux0unT7/iL8ehIKrlDB/baXHtvMboTLmNEhvqEmh2JGU92m9TC8Qt80vbg4JPLYgDP0qdyuwHrWx4jWI/qfiWchDI7Tired6YkpYCf4dN/sAex28a/k0maqwVXPBG7q3Nt+t1w7g1G6mk5IXBBFaSR/vJR4PgA=="
+},
+premium: {
+n: 37,
+bits: "/iSBI/wWbnRQbrIhQrt1Rru126dDdq7BLUcRB/qqqq/gHoElAIKx0/Z15eWJz76sc4yuqKRSc5RwcIgkpMy8jKAPjDB/cRfyce+vx3LmNmOnyMuOkaVPmuDzVA+aMSwvbmx8+6pRjlUqdz6PNje5OmebkxVi0OjBL51Aredh3HYpyuKcN/qAep+0S/mPdCpwTJdDE7o33t+t0OqBE+6RUZIXBKRCaZ/pSajUgA=="
+}
+};
 
-const packs = [
-  {
-    id: "bs",
-    icon: "◻",
-    name: "Белые списки",
-    tag: "БС",
-    count: 593,
-    mode: "manual",
-    file: "NeonVpn-BS.txt",
-    text:
-      "Подборка для БС. Названия стран и ключей " +
-      "в стиле NeonVpn ⚡. Выбирай сервер в приложении."
-  },
-  {
-    id: "cs",
-    icon: "◼",
-    name: "Чёрный список",
-    tag: "ЧС",
-    count: 465,
-    mode: "manual",
-    file: "NeonVpn-CS.txt",
-    text:
-      "Подборка для ЧС с разными странами и протоколами. " +
-      "Импортируй и выбирай подходящий сервер."
-  },
-  {
-    id: "mix",
-    icon: "◈",
-    name: "NeonVpn Mix ⚡",
-    tag: "MIX",
-    count: 396,
-    mode: "manual",
-    file: "NeonVpn-Mix.txt",
-    text:
-      "Обновлённый микс стран и протоколов. " +
-      "Удобно, когда хочется больше вариантов подключения."
-  },
-  {
-    id: "premium",
-    icon: "🥷",
-    name: "Premium · подборка",
-    tag: "PREMIUM",
-    count: 15,
-    mode: "manual",
-    file: "NeonVpn-Premium.txt",
-    text:
-      "Отдельная подборка из БС, Mix и ЧС. " +
-      "Ручной выбор подключения. Платные тарифы смотри в боте."
-  },
-  {
-    id: "bs-auto",
-    icon: "⚡",
-    name: "БС · Автовыбор",
-    tag: "БС · AUTO",
-    mode: "auto",
-    file: "NeonVpn-BS-Auto.txt",
-    text:
-      "Отдельный профиль автовыбора БС. " +
-      "Обновляется независимо от обычной подборки."
-  },
-  {
-    id: "cs-auto",
-    icon: "⚡",
-    name: "ЧС · Автовыбор",
-    tag: "ЧС · AUTO",
-    mode: "auto",
-    file: "NeonVpn-CS-Auto.txt",
-    text:
-      "Отдельный профиль автовыбора ЧС. " +
-      "Поддержка зависит от клиента и его версии."
-  },
-  {
-    id: "mix-auto",
-    icon: "⚡",
-    name: "Mix · Автовыбор",
-    tag: "MIX · AUTO",
-    mode: "auto",
-    file: "NeonVpn-Mix-Auto.json",
-    text:
-      "Профиль Mix в формате JSON. Импортируй " +
-      "в совместимый клиент; обновляется отдельно."
-  }
-];
+const clients = {
+Happ: "happ://add/",
+v2RayTun: "v2raytun://import/",
+INCY: "incy://import/"
+};
 
+const packs = {};
 const $ = id => document.getElementById(id);
-
-const picker = $("picker");
-const manual = $("manual");
-
 let current = null;
-let pushed = false;
-let toastTimer;
+let timer;
+let previous;
 
-function subscriptionUrl(pack) {
-  return BASE + pack.file;
+function notice(text) {
+clearTimeout(timer);
+const el = $("modal").open ? $("message") : $("toast");
+el.textContent = text;
+el.hidden = false;
+timer = setTimeout(() => {
+el.textContent = "";
+if (el.id === "toast") el.hidden = true;
+}, 5000);
 }
 
-function pageUrl(pack) {
-  const address = new URL(location.href);
-  address.searchParams.set("sub", pack.id);
-  address.hash = "";
-  return address;
+async function copy(url, input) {
+try {
+if (navigator.clipboard && isSecureContext) {
+await navigator.clipboard.writeText(url);
+notice("Ссылка скопирована");
+return;
+}
+} catch (e) {}
+
+input.focus();
+input.select();
+input.setSelectionRange(0, url.length);
+
+let ok = false;
+try {
+ok = document.execCommand("copy");
+} catch (e) {}
+
+notice(
+ok
+? "Ссылка скопирована"
+: "Удерживай выделенную ссылку и выбери «Копировать»"
+);
 }
 
-function notify(message) {
-  $("toast").textContent = message;
-  $("toast").hidden = false;
-
-  clearTimeout(toastTimer);
-
-  toastTimer = setTimeout(() => {
-    $("toast").hidden = true;
-  }, 3500);
+function button(text, fn) {
+const b = document.createElement("button");
+b.type = "button";
+b.className = "btn";
+b.textContent = text;
+b.addEventListener("click", fn);
+return b;
 }
 
-function cardTag(pack) {
-  return (
-    pack.tag +
-    (
-      Number.isInteger(pack.count)
-        ? " · " + pack.count + " КОНФИГУРАЦИЙ"
-        : ""
-    )
-  );
+function openQR(id) {
+current = id;
+previous = document.activeElement;
+$("qr-title").textContent = packs[id].title;
+$("qr-url").value = packs[id].url;
+$("message").textContent = "";
+
+const q = QRDATA[id];
+const bytes = atob(q.bits);
+const size = 8;
+const canvas = $("qr");
+
+canvas.width = canvas.height = (q.n + 8) * size;
+
+const ctx = canvas.getContext("2d");
+ctx.fillStyle = "#fff";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+ctx.fillStyle = "#000";
+
+for (let y = 0; y < q.n; y++) {
+for (let x = 0; x < q.n; x++) {
+const i = y * q.n + x;
+if ((bytes.charCodeAt(i >> 3) >> (7 - (i & 7))) & 1) {
+ctx.fillRect((x + 4) * size, (y + 4) * size, size, size);
+}
+}
 }
 
-function filterCards(mode) {
-  document.querySelectorAll(".filter").forEach(button => {
-    button.setAttribute(
-      "aria-pressed",
-      String(button.dataset.filter === mode)
-    );
-  });
-
-  document.querySelectorAll(".card").forEach(card => {
-    card.hidden =
-      mode !== "all" &&
-      card.dataset.mode !== mode;
-  });
+$("modal").showModal();
+document.body.style.overflow = "hidden";
 }
 
-function openPicker(pack, writeAddress = true) {
-  current = pack;
-
-  const url = subscriptionUrl(pack);
-
-  $("selected").textContent = pack.name;
-  $("happ").href = "happ://add/" + url;
-  $("v2").href = "v2raytun://import/" + url;
-  $("raw-file").href = url;
-
-  manual.value = url;
-
-  $("qr-box").hidden = true;
-  $("show-qr").setAttribute("aria-expanded", "false");
-  $("auto-note").hidden = pack.mode !== "auto";
-
-  if (writeAddress) {
-    if (!picker.open) {
-      history.pushState(
-        { neonDialog: true },
-        "",
-        pageUrl(pack)
-      );
-
-      pushed = true;
-    } else {
-      history.replaceState(
-        history.state,
-        "",
-        pageUrl(pack)
-      );
-    }
-  }
-
-  if (!picker.open) {
-    picker.showModal();
-  }
-
-  document.body.classList.add("modal-open");
+function closeQR() {
+$("modal").close();
 }
 
-function closePicker() {
-  if (!picker.open) return;
+$("close").onclick = closeQR;
 
-  picker.close();
-  document.body.classList.remove("modal-open");
-
-  if (pushed) {
-    pushed = false;
-    history.back();
-  } else {
-    const address = new URL(location.href);
-    address.searchParams.delete("sub");
-    history.replaceState(null, "", address);
-  }
-}
-
-async function copyText(value, pack) {
-  try {
-    await navigator.clipboard.writeText(value);
-    notify("Ссылка скопирована ⚡");
-  } catch {
-    if (pack) {
-      openPicker(pack);
-    }
-
-    manual.value = value;
-    manual.focus();
-    manual.select();
-    manual.setSelectionRange(0, value.length);
-
-    notify("Выделил ссылку — скопируй её вручную");
-  }
-}
-
-function createCard(pack) {
-  const card = document.createElement("article");
-
-  card.className = "card";
-  card.id = "subscription-" + pack.id;
-  card.dataset.mode = pack.mode;
-
-  const top = document.createElement("div");
-  top.className = "card-top";
-
-  const icon = document.createElement("span");
-  icon.className = "card-icon";
-  icon.textContent = pack.icon;
-  icon.setAttribute("aria-hidden", "true");
-
-  const tag = document.createElement("span");
-  tag.className = "tag";
-  tag.id = "tag-" + pack.id;
-  tag.textContent = cardTag(pack);
-
-  top.append(icon, tag);
-
-  const title = document.createElement("h3");
-  title.textContent = pack.name;
-
-  const description = document.createElement("p");
-  description.textContent = pack.text;
-
-  const actions = document.createElement("div");
-  actions.className = "card-actions";
-
-  const connect = document.createElement("button");
-  connect.type = "button";
-  connect.className = "btn primary";
-  connect.textContent = "Подключить ⚡";
-
-  connect.addEventListener("click", () => {
-    openPicker(pack);
-  });
-
-  const copy = document.createElement("button");
-  copy.type = "button";
-  copy.className = "btn copy";
-  copy.textContent = "⧉";
-  copy.title = "Копировать ссылку";
-
-  copy.setAttribute(
-    "aria-label",
-    "Копировать ссылку: " + pack.name
-  );
-
-  copy.addEventListener("click", () => {
-    copyText(subscriptionUrl(pack), pack);
-  });
-
-  actions.append(connect, copy);
-
-  card.append(
-    top,
-    title,
-    description,
-    actions
-  );
-
-  return card;
-}
-
-for (const pack of packs) {
-  $("cards").append(createCard(pack));
-}
-
-document.querySelectorAll(".filter").forEach(button => {
-  button.addEventListener("click", () => {
-    filterCards(button.dataset.filter);
-  });
+$("modal").addEventListener("close", () => {
+document.body.style.overflow = "";
+if (previous && previous.isConnected) previous.focus();
 });
 
-$("close").addEventListener("click", closePicker);
-$("back").addEventListener("click", closePicker);
-
-picker.addEventListener("cancel", event => {
-  event.preventDefault();
-  closePicker();
+$("modal").addEventListener("click", e => {
+if (e.target !== $("modal")) return;
+const r = e.target.getBoundingClientRect();
+if (
+e.clientX < r.left ||
+e.clientX > r.right ||
+e.clientY < r.top ||
+e.clientY > r.bottom
+) {
+closeQR();
+}
 });
 
-picker.addEventListener("close", () => {
-  document.body.classList.remove("modal-open");
+$("qr-copy").onclick = () => {
+if (current) copy(packs[current].url, $("qr-url"));
+};
+
+$("qr-save").onclick = () => {
+if (!current) return;
+const a = document.createElement("a");
+a.href = $("qr").toDataURL("image/png");
+a.download = "NeonVpn-" + current + "-QR.png";
+document.body.append(a);
+a.click();
+a.remove();
+};
+
+document.querySelectorAll("[data-pack]").forEach(card => {
+const id = card.dataset.pack;
+const raw = card.querySelector(".direct");
+const url = raw.href;
+
+packs[id] = {
+url,
+title: card.querySelector("h3").textContent
+};
+
+const apps = document.createElement("div");
+apps.className = "apps";
+
+Object.entries(clients).forEach(([name, scheme]) => {
+const a = document.createElement("a");
+a.className = "btn" + (name === "Happ" ? " primary" : "");
+a.href = scheme + url;
+a.textContent = name + " ↗";
+a.onclick = () => notice(
+"Разреши браузеру открыть " + name +
+". Если не открылось — скопируй ссылку."
+);
+apps.append(a);
 });
 
-picker.addEventListener("click", event => {
-  if (event.target !== picker) return;
+const input = document.createElement("input");
+input.className = "url";
+input.value = url;
+input.readOnly = true;
+input.setAttribute("aria-label", "Ссылка " + packs[id].title);
 
-  const bounds = picker.getBoundingClientRect();
+const tools = document.createElement("div");
+tools.className = "tools";
 
-  const outside = [
-    event.clientX < bounds.left,
-    event.clientX > bounds.right,
-    event.clientY < bounds.top,
-    event.clientY > bounds.bottom
-  ].some(Boolean);
+tools.append(
+button("Скопировать", () => copy(url, input)),
+button("QR-код", () => openQR(id))
+);
 
-  if (outside) {
-    closePicker();
-  }
+card.insertBefore(apps, raw);
+card.insertBefore(tools, raw);
+card.insertBefore(input, raw);
 });
 
-$("copy-selected").addEventListener("click", () => {
-  if (current) {
-    copyText(subscriptionUrl(current), current);
-  }
+const selected = new URLSearchParams(location.search).get("sub");
+
+if (selected && packs[selected]) {
+const card = $("pack-" + selected);
+card.classList.add("selected");
+requestAnimationFrame(() => {
+card.scrollIntoView({ block: "center" });
+});
+}
+
+Object.entries(packs).forEach(async ([id, p]) => {
+const controller = new AbortController();
+const stop = setTimeout(() => controller.abort(), 8000);
+
+try {
+const r = await fetch(p.url, {
+cache: "no-store",
+signal: controller.signal
 });
 
-manual.addEventListener("click", () => {
-  manual.select();
-  manual.setSelectionRange(0, manual.value.length);
+if (!r.ok) return;
+
+const text = await r.text();
+const n = (
+text.match(/^(?:vless|vmess|ss|trojan|hy2|hysteria2):\/\//gm) || []
+).length;
+
+if (n) {
+const t = n % 100;
+const l = n % 10;
+
+const word =
+t >= 11 && t <= 14 ? "конфигов"
+: l === 1 ? "конфиг"
+: l >= 2 && l <= 4 ? "конфига"
+: "конфигов";
+
+$("pack-" + id).querySelector(".count").textContent =
+n + " " + word;
+}
+} catch (e) {
+} finally {
+clearTimeout(stop);
+}
 });
-
-$("show-qr").addEventListener("click", () => {
-  if (!current) return;
-
-  const box = $("qr-box");
-  box.hidden = !box.hidden;
-
-  $("show-qr").setAttribute(
-    "aria-expanded",
-    String(!box.hidden)
-  );
-
-  if (box.hidden) return;
-
-  $("qr-note").textContent =
-    "Сканируй через импорт подписки на другом устройстве.";
-
-  $("qr-image").hidden = false;
-
-  $("qr-image").src =
-    "https://api.qrserver.com/v1/create-qr-code/" +
-    "?size=400x400&margin=12&data=" +
-    encodeURIComponent(subscriptionUrl(current));
-});
-
-$("qr-image").addEventListener("error", () => {
-  $("qr-image").hidden = true;
-
-  $("qr-note").textContent =
-    "QR сейчас недоступен. " +
-    "Воспользуйся ссылкой или кнопкой приложения.";
-});
-
-$("share").addEventListener("click", async () => {
-  if (!current) return;
-
-  const url = pageUrl(current).
+</script>
+</body>
+</html>
