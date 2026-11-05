@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<title>Neon Pro ⚡</title>
+<style>
+  :root { color-scheme: dark; font: 17px/1.55 system-ui, sans-serif; }
+  body { margin: 0; padding: 24px; display: grid; min-height: 100svh; box-sizing: border-box; place-items: center; background: #0a0e0b; color: #f0f7f1; }
+  main { box-sizing: border-box; width: min(100%, 420px); padding: 24px; border: 1px solid #31463a; border-radius: 20px; background: #121a15; }
+  h1 { margin: 0 0 12px; font-size: 32px; }
+  a, button { display: block; box-sizing: border-box; width: 100%; margin: 12px 0; padding: 12px; border: 1px solid #42624e; border-radius: 12px; background: #18261d; color: inherit; text-align: center; text-decoration: none; font: inherit; cursor: pointer; }
+  #launch { background: #a2f3b8; color: #0a1b10; font-weight: 700; }
+  input { box-sizing: border-box; width: 100%; padding: 10px; border: 1px solid #42624e; border-radius: 10px; background: #0a0e0b; color: inherit; font: inherit; }
+  small { display: block; color: #b4c8b9; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Neon Pro ⚡</h1>
+  <p id="notice">Откройте ссылку из сообщения в Telegram.</p>
+  <section id="actions" hidden>
+    <a id="launch">Открыть в Happ</a>
+    <small>Если Happ не открылся, нажмите кнопку ещё раз или откройте страницу во внешнем браузере.</small>
+    <button id="copy" type="button">Скопировать ссылку 🔄</button>
+    <input id="subscription" aria-label="Ссылка подписки" readonly>
+    <small>Подписку можно добавить в Happ вручную через буфер обмена.</small>
+    <small id="status" role="status"></small>
+  </section>
+</main>
+<script>
+  const notice = document.getElementById("notice");
+  const launch = document.getElementById("launch");
+  const subscription = document.getElementById("subscription");
+  const status = document.getElementById("status");
+
+  function readSubscription() {
+    try {
+      const url = new URL(decodeURIComponent(location.hash.slice(1)));
+      if (url.origin === "https://mifa.world" && !url.username && !url.password) {
+        return url.href;
+      }
+    } catch {
+      return null;
+    }
+    return null;
+  }
+
+  const url = readSubscription();
+  if (url) {
+    launch.href = "happ://add/" + url;
+    subscription.value = url;
+    notice.hidden = true;
+    document.getElementById("actions").hidden = false;
+
+    document.getElementById("copy").addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(url);
+        status.textContent = "Ссылка скопирована.";
+      } catch {
+        subscription.focus();
+        subscription.select();
+        status.textContent = "Скопируйте выделенную ссылку.";
+      }
+    });
+
+    location.assign(launch.href);
+  }
+</script>
+</body>
+</html>
