@@ -1,0 +1,54 @@
+name: Neon Pro ⚡
+
+on:
+  schedule:
+    - cron: '17 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: neon-pro-sync
+
+jobs:
+  sync:
+    if: github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Update Neon-Pro.txt
+        shell: bash
+        env:
+          SOURCE_URL: https://mifa.world/stamp
+        run: |
+          subscription=$(mktemp)
+          trap 'rm -f "$subscription"' EXIT
+
+          curl --fail --silent --show-error --location \
+            --proto '=https' --proto-redir '=https' \
+            --connect-timeout 15 --max-time 60 --retry 2 \
+            --output "$subscription" "$SOURCE_URL"
+
+          python3 - "$subscription" <<'PY'
+          import sys
+          from pathlib import Path
+
+          body = Path(sys.argv[1]).read_bytes().decode("utf-8-sig").lstrip()
+          if not body or body.startswith("<"):
+              sys.exit("Source returned an empty response or a web page.")
+          PY
+
+          cp "$subscription" Neon-Pro.txt
+          git add -- Neon-Pro.txt
+          if git diff --cached --quiet -- Neon-Pro.txt; then
+            echo "The subscription is already up to date."
+            exit 0
+          fi
+
+          git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m 'Update Neon Pro subscription' -- Neon-Pro.txt
+          git push origin "HEAD:${GITHUB_REF}"
