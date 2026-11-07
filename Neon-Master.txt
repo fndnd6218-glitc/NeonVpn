@@ -1,0 +1,15 @@
+#profile-title: Neon Master 👑
+#profile-web-page-url: https://t.me/NeonVpnnnbot
+#announce: base64:TmVvbiBNYXN0ZXIg8J+RkQrQkdC+0YI6IGh0dHBzOi8vdC5tZS9OZW9uVnBubm5ib3QK0KLQk9CaOiBodHRwczovL3QubWUvKzlSZkdsV3NITnVBM05XWmk=
+# Бот: https://t.me/NeonVpnnnbot
+# ТГК: https://t.me/+9RfGlWsHNuA3NWZi
+
+hysteria2://226e751f-8d9e-4b3d-a703-d9ad228a8c41@46.8.210.209:443?security=tls&alpn=h3&insecure=0&sni=r-fi-1.dokomon.com#%F0%9F%87%AB%F0%9F%87%AE%20Neon%20Master%20%F0%9F%91%91
+hysteria2://226e751f-8d9e-4b3d-a703-d9ad228a8c41@185.22.234.28:443?security=tls&alpn=h3&insecure=0&sni=r-fi-1.dokomon.com#%F0%9F%87%AB%F0%9F%87%AE%20Neon%20Master%20%F0%9F%91%91
+vless://226e751f-8d9e-4b3d-a703-d9ad228a8c41@185.86.145.40:5443?path=%2Fws%2F&security=tls&encryption=none&insecure=0&host=r-fi-1.dokomon.com&fp=qq&type=ws&allowInsecure=0&sni=k2.r-fi-1.dokomon.com#%F0%9F%87%AB%F0%9F%87%AE%20Neon%20Master%20%F0%9F%91%91
+hysteria2://226e751f-8d9e-4b3d-a703-d9ad228a8c41@194.55.239.220:443?security=tls&alpn=h3&insecure=0&sni=r-fi-1.dokomon.com#%F0%9F%87%AB%F0%9F%87%AE%20Neon%20Master%20%F0%9F%91%91
+vless://226e751f-8d9e-4b3d-a703-d9ad228a8c41@185.86.145.40:5443?path=%2Fws%2F&security=tls&encryption=none&insecure=0&host=r-nl-1.dokomon.com&fp=qq&type=ws&allowInsecure=0&sni=k2.r-nl-1.dokomon.com#%F0%9F%87%B3%F0%9F%87%B1%20Neon%20Master%20%F0%9F%91%91
+hysteria2://226e751f-8d9e-4b3d-a703-d9ad228a8c41@46.8.210.209:444?security=tls&alpn=h3&insecure=0&sni=r-se-1.dokomon.com#%F0%9F%87%B8%F0%9F%87%AA%20Neon%20Master%20%F0%9F%91%91
+hysteria2://226e751f-8d9e-4b3d-a703-d9ad228a8c41@185.22.234.28:444?security=tls&alpn=h3&insecure=0&sni=r-se-1.dokomon.com#%F0%9F%87%B8%F0%9F%87%AA%20Neon%20Master%20%F0%9F%91%91
+vless://226e751f-8d9e-4b3d-a703-d9ad228a8c41@185.86.145.40:5443?path=%2Fws%2F&security=tls&encryption=none&insecure=0&host=r-se-1.dokomon.com&fp=qq&type=ws&allowInsecure=0&sni=k2.r-se-1.dokomon.com#%F0%9F%87%B8%F0%9F%87%AA%20Neon%20Master%20%F0%9F%91%91
+hysteria2://226e751f-8d9e-4b3d-a703-d9ad228a8c41@194.55.239.220:444?security=tls&alpn=h3&insecure=0&sni=r-se-1.dokomon.com#%F0%9F%87%B8%F0%9F%87%AA%20Neon%20Master%20%F0%9F%91%91
